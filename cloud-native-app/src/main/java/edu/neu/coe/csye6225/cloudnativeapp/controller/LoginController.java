@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Date;
 
@@ -60,13 +61,15 @@ public class LoginController {
     }
 
     @PostMapping("/createAccount")
-    public String createAccount(Model model, @ModelAttribute UserAccount user) {
+    public RedirectView createAccount( @ModelAttribute UserAccount user) {
 
         String originalPwd = user.getPassword();
         userService.save(user);
         securityService.autologin(user.getEmailAddress(),originalPwd);
-        model.addAttribute("profileInfo", user);
-        return "ProfileDashboard";
+        //model.addAttribute("profileInfo", user);
+        RedirectView rv = new RedirectView();
+        rv.setUrl("/");
+        return rv;
 
     }
 
