@@ -22,33 +22,49 @@ public class LoginController {
     private UserService userService;
 
 
-    @RequestMapping("/")
+    @RequestMapping("/createAccount")
     public String home(Model model) {
         model.addAttribute("user", new edu.neu.coe.csye6225.cloudnativeapp.User.UserAccount());
         return "CreateAccount";
     }
 
-    @RequestMapping("/profile")
+
+    @RequestMapping("/")
+    public String profile(Model model){
+
+        UserAccount loggedInUser = userService.findLoggedInUsername();
+
+        model.addAttribute("profileInfo", loggedInUser);
+        return "ProfileDashboard";
+
+
+    }
+
+  /*  @RequestMapping("/profile")
     public String profile(Model model) {
         model.addAttribute("profileInfo", getProfileInfo());
         return "ProfileDashboard";
-    }
+    }*/
 
-    private ProfileInformation getProfileInfo() {
+    private ProfileInformation getProfileInfo(UserAccount ua) {
         ProfileInformation pi = new ProfileInformation();
-        pi.setFirstName("Devesh");
-        pi.setLastName("Kandpal");
+        pi.setFirstName(ua.getFirstName());
+        pi.setLastName(ua.getLastName());
+        pi.setEmailId(ua.getEmailAddress());
         pi.setTimestamp(new Date());
         return pi;
     }
 
     @PostMapping("/createAccount")
-    public String createAccount(@ModelAttribute UserAccount user) {
+    public String createAccount(Model model, @ModelAttribute UserAccount user) {
 
         System.out.println(user);
-        userService.save(user);
+        UserAccount ua = userService.save(user);
 
-        return "success";
+
+        model.addAttribute("profileInfo", ua);
+        return "ProfileDashboard";
+
     }
 
 
