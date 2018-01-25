@@ -1,36 +1,47 @@
 <!DOCTYPE html>
 <html
-        xmlns:th="http://www.thymeleaf.org">
+        lang="en" xmlns:th="http://www.thymeleaf.org"
+        layout:decorator="layouts/main">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Profile Dashboard</title>
 </head>
 <body>
 
-<h1>Profile Dashboard</h1>
+<div layout:fragment="content">
 
 
-<div  th:object="${profileInfo}">
+    <div th:object="${profileInfo}">
 
-    <p>
-        <label>First Name</label>
-        <p  th:text="*{firstName}">First Name</p>
+        <p>
+            <label>First Name</label>
+        <p th:text="*{firstName}">First Name</p>
 
 
-    </p>
+        </p>
 
-    <p>
-        <label>Last Name</label>
+        <p>
+            <label>Last Name</label>
         <p th:text="*{lastName}">Last Name</p>
 
 
-    </p>
+        </p>
 
-    <p>
-        <label>Current Date</label>
-        <p  th:text="*{timestamp}">Current Date</p>
 
-    </p>
+        <p>
+            <label>Email Id</label>
+        <p  th:text="*{emailAddress}">Email Id</p>
+
+        </p>
+
+            <!--<p>-->
+                <!--<label>Current Date</label>-->
+                <!--<p  th:text="*{timestamp}">Current Date</p>-->
+
+            <!--</p>-->
+
+
+    </div>
 
 
 </div>
