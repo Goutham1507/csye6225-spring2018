@@ -45,16 +45,7 @@ public class UserService implements UserDetailsService {
     }
 
 
-    public UserAccount findLoggedInUsername() {
-        Object userDetails = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (userDetails instanceof UserDetailsImpl) {
-            UserDetailsImpl userDetailsImpl = (UserDetailsImpl)userDetails;
-            return userDetailsImpl.getUser();
 
-        }
-
-        return null;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {

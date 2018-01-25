@@ -4,6 +4,7 @@ package edu.neu.coe.csye6225.cloudnativeapp.controller;
 
 import edu.neu.coe.csye6225.cloudnativeapp.User.ProfileInformation;
 import edu.neu.coe.csye6225.cloudnativeapp.domain.UserAccount;
+import edu.neu.coe.csye6225.cloudnativeapp.service.SecurityServiceImpl;
 import edu.neu.coe.csye6225.cloudnativeapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,9 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private SecurityServiceImpl securityService;
+
 
     @RequestMapping("/createAccount")
     public String home(Model model) {
@@ -32,7 +36,7 @@ public class LoginController {
     @RequestMapping("/")
     public String profile(Model model){
 
-        UserAccount loggedInUser = userService.findLoggedInUsername();
+        UserAccount loggedInUser = securityService.findLoggedInUsername();
 
         model.addAttribute("profileInfo", loggedInUser);
         return "ProfileDashboard";
@@ -58,11 +62,10 @@ public class LoginController {
     @PostMapping("/createAccount")
     public String createAccount(Model model, @ModelAttribute UserAccount user) {
 
-        System.out.println(user);
-        UserAccount ua = userService.save(user);
-
-
-        model.addAttribute("profileInfo", ua);
+        String originalPwd = user.getPassword();
+        userService.save(user);
+        securityService.autologin(user.getEmailAddress(),originalPwd);
+        model.addAttribute("profileInfo", user);
         return "ProfileDashboard";
 
     }
