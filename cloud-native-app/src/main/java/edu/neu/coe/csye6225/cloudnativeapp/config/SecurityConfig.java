@@ -33,15 +33,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
 
+        http.csrf().ignoringAntMatchers("/createAccount");
+
         http
                 .authorizeRequests()
                     .antMatchers("/createAccount").permitAll()
-                    .anyRequest().authenticated()
-                    .and()
+                    .anyRequest().
+                authenticated()
+            .and()
                 .formLogin()
                     .loginPage("/login")
                     .permitAll()
                     .and()
+
                 .logout()
                     .logoutSuccessUrl("/login")
                     .permitAll();
