@@ -44,14 +44,23 @@ public class UserService implements UserDetailsService {
         return userRepository.findByEmailAddress(email);
     }
 
+    public boolean CheckIfEmailExists(String email) {
+        UserAccount user = findByEmail(email);
 
+        if (user != null) {
+            return true;
+        } else {
+
+            return false;
+        }
+    }
 
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 
         UserAccount userAccount = findByEmail(userName);
-        if(userAccount == null){
+        if (userAccount == null) {
 
             throw new UsernameNotFoundException(userName);
         }

@@ -1,7 +1,6 @@
 package edu.neu.coe.csye6225.cloudnativeapp.controller;
 
 
-
 import edu.neu.coe.csye6225.cloudnativeapp.User.ProfileInformation;
 import edu.neu.coe.csye6225.cloudnativeapp.domain.UserAccount;
 import edu.neu.coe.csye6225.cloudnativeapp.service.SecurityServiceImpl;
@@ -12,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Date;
@@ -35,7 +35,7 @@ public class LoginController {
 
 
     @RequestMapping("/")
-    public String profile(Model model){
+    public String profile(Model model) {
 
         UserAccount loggedInUser = securityService.findLoggedInUsername();
 
@@ -61,19 +61,29 @@ public class LoginController {
     }
 
     @PostMapping("/createAccount")
-    public RedirectView createAccount( @ModelAttribute UserAccount user) {
+    public RedirectView createAccount(@ModelAttribute UserAccount user, RedirectAttributes redirectAttributes) {
 
         String originalPwd = user.getPassword();
+
+
+        if (userService.CheckIfEmailExists(user.getEmailAddress())) {
+
+            RedirectView rv = new RedirectView();
+            redirectAttributes.addFlashAttribute("UserExists", true);
+
+            rv.setUrl("/createAccount");
+            return rv;
+        }
+
+
         userService.save(user);
-        securityService.autologin(user.getEmailAddress(),originalPwd);
+        securityService.autologin(user.getEmailAddress(), originalPwd);
         //model.addAttribute("profileInfo", user);
         RedirectView rv = new RedirectView();
         rv.setUrl("/");
         return rv;
 
     }
-
-
 
 
 }

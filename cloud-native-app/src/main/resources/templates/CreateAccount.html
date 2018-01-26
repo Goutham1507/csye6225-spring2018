@@ -12,6 +12,11 @@
 
 <form th:action="@{/createAccount}" th:object="${user}" method="post">
 
+    <p th:if="${UserExists}">
+        UserName Already Exists
+
+    </p>
+
     <p>
         <label>First Name</label>
         <input type="text" th:field="*{firstName}"/>
