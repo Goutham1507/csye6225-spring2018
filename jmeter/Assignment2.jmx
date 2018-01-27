@@ -29,7 +29,7 @@
         <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Create Account " enabled="true">
           <stringProp name="delimiter">,</stringProp>
           <stringProp name="fileEncoding"></stringProp>
-          <stringProp name="filename">\Users\deveshkandpal\Code\cloudcomputing\repo\csye6225-spring2018\createAccount.csv</stringProp>
+          <stringProp name="filename">/Users/deveshkandpal/Code/cloudcomputing/repo/csye6225-spring2018/jmeter/createAccount.csv</stringProp>
           <boolProp name="ignoreFirstLine">false</boolProp>
           <boolProp name="quotedData">false</boolProp>
           <boolProp name="recycle">true</boolProp>
@@ -131,7 +131,7 @@
       </ThreadGroup>
       <hashTree>
         <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="SignIn" enabled="true">
-          <stringProp name="filename">\Users\deveshkandpal\Code\cloudcomputing\repo\csye6225-spring2018\createAccount.csv</stringProp>
+          <stringProp name="filename">/Users/deveshkandpal/Code/cloudcomputing/repo/csye6225-spring2018/jmeter/createAccount.csv</stringProp>
           <stringProp name="fileEncoding"></stringProp>
           <stringProp name="variableNames"></stringProp>
           <boolProp name="ignoreFirstLine">false</boolProp>
