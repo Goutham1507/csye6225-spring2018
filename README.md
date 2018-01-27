@@ -20,6 +20,6 @@ Steps :
 Team Info :
 
 
-1. Anunbhav Gupta - gupta.anu@husky.neu.edu
+1. Anubhav Gupta - gupta.anu@husky.neu.edu
 2. Rugvedi Kapse - kapse.r@husky.neu.edu
 3. Devesh Kandpal - kandpal.d@husky.neu.edu
