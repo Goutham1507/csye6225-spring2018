@@ -29,7 +29,7 @@ public class LoginController {
 
     @RequestMapping("/createAccount")
     public String home(Model model) {
-        model.addAttribute("user", new edu.neu.coe.csye6225.cloudnativeapp.User.UserAccount());
+        model.addAttribute("user", new UserAccount());
         return "CreateAccount";
     }
 
