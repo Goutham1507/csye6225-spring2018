@@ -35,10 +35,17 @@
         </p>
 
             <!--<p>-->
-                <!--<label>Current Date</label>-->
+                <label>Current Date</label>
                 <!--<p  th:text="*{timestamp}">Current Date</p>-->
 
-            <!--</p>-->
+        <p id="date-current"></p>
+
+        <script>
+            document.getElementById("date-current").innerHTML = Date();
+        </script>
+
+
+        <!--</p>-->
 
 
     </div>
