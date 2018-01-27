@@ -4,6 +4,17 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Create Account</title>
+
+
+    <style>
+
+        .error {
+
+            color: red;
+        }
+
+
+    </style>
 </head>
 <body>
 
@@ -12,7 +23,7 @@
 
 <form th:action="@{/createAccount}" th:object="${user}" method="post">
 
-    <p th:if="${UserExists}">
+    <p class="error" th:if="${UserExists}">
         UserName Already Exists
 
     </p>
