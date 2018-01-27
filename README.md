@@ -11,7 +11,7 @@ Steps :
 5. Get codebase at : https://github.com/deveshkandpal24121990/csye6225-spring2018/tree/assignment2/cloud-native-app
 6. Navigate to cloud-native-app root directory and run "mvn clean install"
 7. Make sure MySQL server is running with the created database schema
-8. java -jar ./target/<name of war>.war will bring up the Spring Boot Application
+8. java -jar ./target/cloud-native-app-0.0.1-SNAPSHOT.war will bring up the Spring Boot Application
 9. Access the web-app at http://localhost:8080
 10. Access JMeter Script for load testing at : https://github.com/deveshkandpal24121990/csye6225-spring2018/blob/assignment2/jmeter/Assignment2.jmx
 
