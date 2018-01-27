@@ -22,9 +22,9 @@ public class UserAccount {
     private String password;
 
     // private no arg constructor is needed by jpa.
-    private UserAccount() {
+    /*private UserAccount() {
 
-    }
+    }*/
 
     public String getEmailAddress() {
         return emailAddress;
