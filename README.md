@@ -9,7 +9,7 @@ Steps :
 3. Install MySQL : https://dev.mysql.com/downloads/
 4. Create Database in MySQL with name : cloud-native-app-db
 5. Get codebase at : https://github.com/deveshkandpal24121990/csye6225-spring2018/tree/assignment2/cloud-native-app
-6. Navigate to cloud-native-app root directory and "run mvn clean install"
+6. Navigate to cloud-native-app root directory and run "mvn clean install"
 7. Make sure MySQL server is running with the created database schema
 8. java -jar ./target/<name of war>.war will bring up the Spring Boot Application
 9. Access the web-app at http://localhost:8080
