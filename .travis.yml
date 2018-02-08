@@ -5,4 +5,4 @@ jdk:
 sudo: false
 install: true
 
-script: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+script: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -DarchetypeArtifactId=cloud-native-app
