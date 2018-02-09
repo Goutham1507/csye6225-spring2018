@@ -2,7 +2,7 @@
 echo "CREATING STACK"
 stackName=$1
 
-idRsa='id_rsa'
+idRsa=$2
 
 stackId=$(aws cloudformation create-stack --stack-name $stackName --template-body file://csye6225-cf-application.json --parameters ParameterKey=keyTag,ParameterValue=$idRsa --query [StackId] --output text)
 echo "#############################"
