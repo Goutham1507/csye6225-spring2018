@@ -1,0 +1,31 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Parameters": {
+        "keyTag": {
+          "Type": "String"
+        }
+      },
+    "Description" : "Ec2 block device mapping",
+    "Resources" : {
+       "MyEC2Instance" : {
+          "Type" : "AWS::EC2::Instance",
+          "Properties" : {
+             "ImageId" : "ami-66506c1c",
+             "KeyName" : {"Ref" : "keyTag"},
+             "DisableApiTermination" : "false",
+             "InstanceType" : "t2.micro",
+             "BlockDeviceMappings" : [
+                {
+                   "DeviceName" : "/dev/sda1",
+                   "Ebs" : {
+                      "VolumeType" : "gp2",
+                      "DeleteOnTermination" : "true",
+                      "VolumeSize" : "16"
+                   }
+                }
+                
+             ]
+          }
+       }
+    }
+ }
