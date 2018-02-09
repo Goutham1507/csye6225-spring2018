@@ -1,0 +1,17 @@
+language: java
+jdk:
+- oraclejdk8
+
+sudo: false
+install: true
+
+script: mvn -f ./cloud-native-app/ install -DskipTests=false -Dmaven.javadoc.skip=true -B -V
+
+notifications:
+  email:
+    recipients:
+      - gupta.anu@husky.neu.edu
+      - kandpal.d@husky.neu.edu
+      - kapse.r@husky.neu.edu
+    on_success: always # default: change
+    on_failure: always # default: always
