@@ -1,10 +1,10 @@
 #!/bin/bash
 echo "CREATING STACK"
-
-keyTag='zillow-keys'
-echo $keyTag
 stackName=$1
-stackId=$(aws cloudformation create-stack --stack-name $stackName --template-body file://start.json --parameters ParameterKey=keyTag,ParameterValue=$keyTag --query [StackId] --output text)
+
+idRsa=$2
+
+stackId=$(aws cloudformation create-stack --stack-name $stackName --template-body file://csye6225-cf-application.json --parameters ParameterKey=keyTag,ParameterValue=$idRsa --query [StackId] --output text)
 echo "#############################"
 echo $stackId
 echo "#############################"
