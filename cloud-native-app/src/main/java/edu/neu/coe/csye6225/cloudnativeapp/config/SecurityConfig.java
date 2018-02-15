@@ -35,6 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().ignoringAntMatchers("/createAccount");
         http.csrf().ignoringAntMatchers("/login");
+        http.csrf().ignoringAntMatchers("/upload");
 
         http
                 .authorizeRequests()
