@@ -23,15 +23,6 @@ public class ProfileController {
     @PostMapping("/upload")
     public RedirectView uploadProfilePic(@RequestParam("profile-pic")MultipartFile file){
 
-
-        String contentType = file.getContentType();
-        String name = file.getName();
-
-        System.out.println("---------------------------------------------------------------------------------------");
-        System.out.println(System.getProperty("java.io.tmpdir"));
-        System.out.println("Content Type " + contentType + ",name" + name);
-        System.out.println("---------------------------------------------------------------------------------------");
-
         uploadClient.storeProfilePic(file);
         RedirectView rv = new RedirectView();
         rv.setUrl("/");
