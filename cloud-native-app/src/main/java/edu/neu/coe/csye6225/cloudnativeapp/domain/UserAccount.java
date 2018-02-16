@@ -21,6 +21,10 @@ public class UserAccount {
 
     private String password;
 
+    public Long getId() {
+        return id;
+    }
+
     // private no arg constructor is needed by jpa.
     /*private UserAccount() {
 
