@@ -3,46 +3,54 @@ package edu.neu.coe.csye6225.cloudnativeapp.service;
 
 import edu.neu.coe.csye6225.cloudnativeapp.domain.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 
 @Service
-public class ProfileService {
+@Profile("!dev")
+public class LocalClientService implements UploadClient {
 
 
     @Autowired
     private SecurityServiceImpl securityService;
 
-    @Autowired
-    private AmazonClient awsClient;
-
-
     private static final String FILE_NAME_PRE = "profile_pic_";
 
     private static final String DOT = ".";
+
+    private static final String PROFILE_PIC_DIR = "/Profile_Pics/";
 
 
     public void storeProfilePic(MultipartFile file) {
 
 
         UserAccount loggedInUsername = securityService.findLoggedInUsername();
-
-
         String[] split = file.getOriginalFilename().split("\\.");
         String contentType = Arrays.asList(split).get(1);
         String id = loggedInUsername.getId().toString();
-
-        final String tempDirectory = System.getProperty("java.io.tmpdir");
-
-
         String fileName = FILE_NAME_PRE + id + DOT + contentType;
 
-        awsClient.uploadFile(file, fileName);
+        String profileDir = System.getProperty("user.dir") + PROFILE_PIC_DIR;
+
+        if (!Files.exists(Paths.get(profileDir))) {
+
+            new File(profileDir).mkdir();
+
+        }
+        File tempFile = new File(profileDir + fileName);
+        try {
+            file.transferTo(tempFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
 //        try {
 //            File profileImage = convertMultiPartToFile(file, fileName);
@@ -66,14 +74,15 @@ public class ProfileService {
     }
 
 
-    private File convertMultiPartToFile(MultipartFile file, String fileName) throws IOException {
+//    private File convertMultiPartToFile(MultipartFile file) throws IOException {
+//
+//        File convFile = new File(fileName);
+//        file.transferTo(convFile);
+//        convFile.createNewFile();
+//        FileOutputStream fos = new FileOutputStream(convFile);
+//        fos.write(file.getBytes());
+//        fos.close();
+//        return convFile;
+//    }
 
-        File convFile = new File(fileName);
-        file.transferTo(convFile);
-        convFile.createNewFile();
-        FileOutputStream fos = new FileOutputStream(convFile);
-        fos.write(file.getBytes());
-        fos.close();
-        return convFile;
-    }
 }

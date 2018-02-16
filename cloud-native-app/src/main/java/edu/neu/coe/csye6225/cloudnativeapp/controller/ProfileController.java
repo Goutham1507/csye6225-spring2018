@@ -1,22 +1,23 @@
 package edu.neu.coe.csye6225.cloudnativeapp.controller;
 
 
-import edu.neu.coe.csye6225.cloudnativeapp.service.ProfileService;
+import edu.neu.coe.csye6225.cloudnativeapp.service.LocalClientService;
+import edu.neu.coe.csye6225.cloudnativeapp.service.UploadClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.nio.file.Paths;
 
 @Controller
 public class ProfileController {
 
 
     @Autowired
-    public ProfileService profileService;
+    public UploadClient uploadClient;
+
+
+
 
     @PostMapping("/upload")
     public void uploadProfilePic(@RequestParam("profile-pic")MultipartFile file){
@@ -30,7 +31,7 @@ public class ProfileController {
         System.out.println("Content Type " + contentType + ",name" + name);
         System.out.println("---------------------------------------------------------------------------------------");
 
-        profileService.storeProfilePic(file);
+        uploadClient.storeProfilePic(file);
 
 
 
