@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class ProfileController {
@@ -20,7 +21,7 @@ public class ProfileController {
 
 
     @PostMapping("/upload")
-    public void uploadProfilePic(@RequestParam("profile-pic")MultipartFile file){
+    public RedirectView uploadProfilePic(@RequestParam("profile-pic")MultipartFile file){
 
 
         String contentType = file.getContentType();
@@ -32,10 +33,9 @@ public class ProfileController {
         System.out.println("---------------------------------------------------------------------------------------");
 
         uploadClient.storeProfilePic(file);
-
-
-
-
+        RedirectView rv = new RedirectView();
+        rv.setUrl("/");
+        return rv;
 
 
     }
