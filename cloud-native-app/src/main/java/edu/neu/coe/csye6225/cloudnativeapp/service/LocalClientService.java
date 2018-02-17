@@ -7,9 +7,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -86,6 +84,36 @@ public class LocalClientService implements UploadClient {
 //        return convFile;
 //    }
 
-    public void deleteProfilePic() {}
-    public InputStream getProfilePic() { return null;}
+    public void deleteProfilePic() {
+    }
+
+    public InputStream getProfilePic() {
+
+        UserAccount loggedInUsername = securityService.findLoggedInUsername();
+        String id = loggedInUsername.getId().toString();
+
+        String fileName = FILE_NAME_PRE + id;
+
+        String fileURl = System.getProperty("user.dir") + PROFILE_PIC_DIR + id;
+
+        String folderName = System.getProperty("user.dir") + "/Profile_Pics";
+
+        File folder = new File(folderName);
+
+        File file = Arrays.asList(folder.listFiles()).stream()
+                .filter(o -> o.getName().contains(fileName))
+                .map(o -> o.getAbsoluteFile())
+                .findAny().orElse(null);
+
+
+        try {
+            InputStream is = new FileInputStream(file);
+            return is;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+
+        }
+
+        return null;
+    }
 }

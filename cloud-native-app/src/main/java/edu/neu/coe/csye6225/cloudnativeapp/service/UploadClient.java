@@ -9,7 +9,6 @@ public interface UploadClient {
 
     void storeProfilePic(MultipartFile file);
 
-
     InputStream getProfilePic();
 
     void deleteProfilePic();

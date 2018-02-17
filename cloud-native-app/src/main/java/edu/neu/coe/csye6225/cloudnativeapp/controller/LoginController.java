@@ -30,11 +30,6 @@ public class LoginController {
 
 
     @Autowired
-    AmazonClient amazonClient;
-
-
-
-    @Autowired
     UploadClient uploadClient;
 
 
@@ -49,7 +44,7 @@ public class LoginController {
     public String profile(Model model) {
 
         UserAccount loggedInUser = securityService.findLoggedInUsername();
-        amazonClient.getProfilePic();
+        uploadClient.getProfilePic();
         model.addAttribute("profileInfo", loggedInUser);
         return "ProfileDashboard";
 
