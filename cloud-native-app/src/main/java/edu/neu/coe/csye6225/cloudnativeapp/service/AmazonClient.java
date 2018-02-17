@@ -50,13 +50,12 @@ public class AmazonClient implements UploadClient {
     public void storeProfilePic(MultipartFile file) {
 
 
+        deleteProfilePic();
         UserAccount loggedInUsername = securityService.findLoggedInUsername();
         String[] split = file.getOriginalFilename().split("\\.");
         String contentType = Arrays.asList(split).get(1);
         String id = loggedInUsername.getId().toString();
         String fileName = FILE_NAME_PRE + id + DOT + contentType;
-
-
         InputStream inputStream = null;
         try {
             inputStream = file.getInputStream();

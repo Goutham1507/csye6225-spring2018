@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.io.File;
 import java.io.IOException;
 
 import java.io.InputStream;
@@ -24,10 +23,6 @@ public class ProfileController {
 
     @Autowired
     public UploadClient uploadClient;
-
-    @Value("#{'resources/images/sample.jpg'}")
-    private Resource resource;
-
 
     @PostMapping("/upload")
     public RedirectView uploadProfilePic(@RequestParam("profile-pic") MultipartFile file) {
