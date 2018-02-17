@@ -30,6 +30,8 @@ public class LocalClientService implements UploadClient {
     public void storeProfilePic(MultipartFile file) {
 
 
+
+        deleteProfilePic();
         UserAccount loggedInUsername = securityService.findLoggedInUsername();
         String[] split = file.getOriginalFilename().split("\\.");
         String contentType = Arrays.asList(split).get(1);
@@ -85,6 +87,26 @@ public class LocalClientService implements UploadClient {
 //    }
 
     public void deleteProfilePic() {
+
+
+        UserAccount loggedInUsername = securityService.findLoggedInUsername();
+        String id = loggedInUsername.getId().toString();
+
+        String fileName = FILE_NAME_PRE + id;
+        String folderName = System.getProperty("user.dir") + "/Profile_Pics";
+        File folder = new File(folderName);
+
+        File file = Arrays.asList(folder.listFiles()).stream()
+                .filter(o -> o.getName().contains(fileName))
+                .map(o -> o.getAbsoluteFile())
+                .findAny().orElse(null);
+
+        if (file != null) {
+
+            file.delete();
+        }
+
+
     }
 
     public InputStream getProfilePic() {
@@ -93,17 +115,19 @@ public class LocalClientService implements UploadClient {
         String id = loggedInUsername.getId().toString();
 
         String fileName = FILE_NAME_PRE + id;
-
-        String fileURl = System.getProperty("user.dir") + PROFILE_PIC_DIR + id;
-
         String folderName = System.getProperty("user.dir") + "/Profile_Pics";
-
         File folder = new File(folderName);
 
         File file = Arrays.asList(folder.listFiles()).stream()
                 .filter(o -> o.getName().contains(fileName))
                 .map(o -> o.getAbsoluteFile())
                 .findAny().orElse(null);
+
+
+        if (file == null) {
+
+            return null;
+        }
 
 
         try {
