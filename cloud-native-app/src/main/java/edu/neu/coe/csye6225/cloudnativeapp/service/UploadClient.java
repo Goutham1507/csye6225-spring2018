@@ -11,4 +11,6 @@ public interface UploadClient {
 
 
     InputStream getProfilePic();
+
+    void deleteProfilePic();
 }

@@ -86,6 +86,6 @@ public class LocalClientService implements UploadClient {
 //        return convFile;
 //    }
 
-
+    public void deleteProfilePic() {}
     public InputStream getProfilePic() { return null;}
 }

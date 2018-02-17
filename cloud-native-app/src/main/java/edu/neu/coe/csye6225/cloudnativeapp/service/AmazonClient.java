@@ -71,10 +71,10 @@ public class AmazonClient implements UploadClient {
 
     public InputStream getProfilePic() {
 
-        //UserAccount loggedInUsername = securityService.findLoggedInUsername();
-        //String id = loggedInUsername.getId().toString();
-        //String key = PROFILE_DIR + FILE_NAME_PRE + id;
-        String key = PROFILE_DIR + FILE_NAME_PRE + 1;
+        UserAccount loggedInUsername = securityService.findLoggedInUsername();
+        String id = loggedInUsername.getId().toString();
+        String key = PROFILE_DIR + FILE_NAME_PRE + id;
+        // String key = PROFILE_DIR + FILE_NAME_PRE + 2;
         ListObjectsV2Request req = new ListObjectsV2Request().withBucketName(bucketName);
 
         ListObjectsV2Result result = s3Client.listObjectsV2(req);
@@ -91,6 +91,32 @@ public class AmazonClient implements UploadClient {
 
         S3Object object = s3Client.getObject(new GetObjectRequest(bucketName, keyName));
         return object.getObjectContent();
+
+
+    }
+
+    public void deleteProfilePic() {
+
+
+        UserAccount loggedInUsername = securityService.findLoggedInUsername();
+        String id = loggedInUsername.getId().toString();
+        String key = PROFILE_DIR + FILE_NAME_PRE + id;
+        // String key = PROFILE_DIR + FILE_NAME_PRE + 2;
+        ListObjectsV2Request req = new ListObjectsV2Request().withBucketName(bucketName);
+
+        ListObjectsV2Result result = s3Client.listObjectsV2(req);
+
+        String keyName = result.getObjectSummaries().stream()
+                .filter(o -> o.getKey().contains(key))
+                .map(o -> o.getKey())
+                .findAny().orElse(null);
+
+        if (keyName == null) {
+
+            return;
+        }
+
+        s3Client.deleteObject(new DeleteObjectRequest(bucketName, keyName));
 
 
     }
