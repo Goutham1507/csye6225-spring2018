@@ -4,7 +4,7 @@ package edu.neu.coe.csye6225.cloudnativeapp.service;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.*;
 import edu.neu.coe.csye6225.cloudnativeapp.domain.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -65,6 +65,33 @@ public class AmazonClient implements UploadClient {
         }
 
         s3Client.putObject(bucketName, PROFILE_DIR + fileName, inputStream, new ObjectMetadata());
+
+    }
+
+
+    public InputStream getProfilePic() {
+
+        //UserAccount loggedInUsername = securityService.findLoggedInUsername();
+        //String id = loggedInUsername.getId().toString();
+        //String key = PROFILE_DIR + FILE_NAME_PRE + id;
+        String key = PROFILE_DIR + FILE_NAME_PRE + 1;
+        ListObjectsV2Request req = new ListObjectsV2Request().withBucketName(bucketName);
+
+        ListObjectsV2Result result = s3Client.listObjectsV2(req);
+
+        String keyName = result.getObjectSummaries().stream()
+                .filter(o -> o.getKey().contains(key))
+                .map(o -> o.getKey())
+                .findAny().orElse(null);
+
+        if (keyName == null) {
+
+            return null;
+        }
+
+        S3Object object = s3Client.getObject(new GetObjectRequest(bucketName, keyName));
+        return object.getObjectContent();
+
 
     }
 

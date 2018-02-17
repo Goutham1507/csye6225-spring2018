@@ -3,11 +3,26 @@
       layout:decorator="layouts/main">
 <head>
     <title>Security Demo - Login</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+
+        // $(window).on('load', function(){
+        //     console.log('calling backend');
+        //     $.ajax({ url: "/profilePic",
+        //         type : 'get',
+        //         success: function(data){
+        //
+        //             $("#profilePic").attr("src", `data:image/jpeg;base64,${data}}`);
+        //         }});
+        // });
+
+    </script>
 </head>
 <body>
 
 <div layout:fragment="content">
 
+    <h1>HI HOW ARE YOU!!</h1>
 
     <form name="f" th:action="@{/login}" method="post" class="form-signin">
         <h2 class="form-signin-heading">Please sign in</h2>
@@ -36,8 +51,14 @@
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
     </form>
-
+    <img id="profilePic" src="/profilePic"/>
 </div>
+
+
+
+
+
+
 
 </body>
 </html>

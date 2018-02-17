@@ -3,7 +3,9 @@ package edu.neu.coe.csye6225.cloudnativeapp.controller;
 
 import edu.neu.coe.csye6225.cloudnativeapp.User.ProfileInformation;
 import edu.neu.coe.csye6225.cloudnativeapp.domain.UserAccount;
+import edu.neu.coe.csye6225.cloudnativeapp.service.AmazonClient;
 import edu.neu.coe.csye6225.cloudnativeapp.service.SecurityServiceImpl;
+import edu.neu.coe.csye6225.cloudnativeapp.service.UploadClient;
 import edu.neu.coe.csye6225.cloudnativeapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +29,15 @@ public class LoginController {
     private SecurityServiceImpl securityService;
 
 
+    @Autowired
+    AmazonClient amazonClient;
+
+
+
+    @Autowired
+    UploadClient uploadClient;
+
+
     @RequestMapping("/createAccount")
     public String home(Model model) {
         model.addAttribute("user", new UserAccount());
@@ -38,7 +49,7 @@ public class LoginController {
     public String profile(Model model) {
 
         UserAccount loggedInUser = securityService.findLoggedInUsername();
-
+        amazonClient.getProfilePic();
         model.addAttribute("profileInfo", loggedInUser);
         return "ProfileDashboard";
 
