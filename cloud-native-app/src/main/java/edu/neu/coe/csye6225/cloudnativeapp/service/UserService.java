@@ -31,6 +31,12 @@ public class UserService implements UserDetailsService {
     }
 
 
+    public UserAccount saveUserAccount(UserAccount userAccount){
+
+       return userRepository.save(userAccount);
+    }
+
+
     private String hashPassword(String password) {
 
         String pw_hash = BCrypt.hashpw(password, BCrypt.gensalt());

@@ -12,7 +12,6 @@
 </head>
 
 
-
 <body>
 
 <div layout:fragment="content">
@@ -52,7 +51,22 @@
 
         <!--</p>-->
 
+
     </div>
+
+
+    <form id="form_update_aboutme" th:action="@{/updateAboutMe}" th:object="${profileInfo}" method="post">
+
+
+        <textarea name="aboutMe" id="aboutMe" cols="30" rows="10" th:text="*{aboutMe}">About Me</textarea>
+
+        <input type="submit" value="Save"/>
+
+
+
+    </form>
+
+
 
     <div>
         <form method="post" action="/upload" enctype="multipart/form-data">
@@ -71,19 +85,15 @@
     <img id="profilePic" src="/profilePic" alt="Profile Pic" height="50" width="50"/>
 
 
-    <form th:action="@{'/deletePic'}" th:method="delete" >
+    <form th:action="@{'/deletePic'}" th:method="delete">
         <button type="submit" id="submitButton">Delete Photo</button>
     </form>
-
 
 
 </div>
 
 
 </body>
-
-
-
 
 
 </html>
