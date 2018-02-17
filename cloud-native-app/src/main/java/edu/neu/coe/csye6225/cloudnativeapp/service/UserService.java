@@ -30,6 +30,11 @@ public class UserService implements UserDetailsService {
 
     }
 
+    public UserAccount findById(Long id){
+
+        return userRepository.findById(id);
+    }
+
 
     public UserAccount saveUserAccount(UserAccount userAccount){
 

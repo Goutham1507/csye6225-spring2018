@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -81,6 +82,21 @@ public class ProfileController {
         return rv;
 
     }
+
+
+    @GetMapping("/offlineProfile/{userId}")
+    public String viewOfflineProfile(@PathVariable Long userId, Model model) {
+
+
+        UserAccount userAccount = userService.findById(userId);
+        model.addAttribute("userAccount", userAccount);
+        return "OfflineProfile";
+
+    }
+
+
+
+
 
 
 
