@@ -54,10 +54,14 @@ public class ProfileController {
 
     }
 
-    @RequestMapping(value = "/deletePic", method = RequestMethod.GET)
+    @RequestMapping(value = "/deletePic", method = RequestMethod.DELETE)
     public
-    void deleteProfilePic() {
+    RedirectView deleteProfilePic() {
         uploadClient.deleteProfilePic();
+        RedirectView rv = new RedirectView();
+        rv.setUrl("/");
+        return rv;
+
     }
 
 
