@@ -6,6 +6,7 @@ sudo: false
 install: true
 
 script:
+  - echo $BRANCH
   - 'ls -al'
   - 'cd ./cloud-native-app'
   - 'mvn clean install -DskipTests=false -Dmaven.javadoc.skip=true -B -V'
