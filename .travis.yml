@@ -5,9 +5,10 @@ jdk:
 sudo: false
 install: true
 
-branches : 
- - only :
+branches:
+  only:
   - $branch
+  
 
 
 script: 
