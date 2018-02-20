@@ -5,6 +5,10 @@ jdk:
 sudo: false
 install: true
 
+branches:
+  only:
+    - ${BRANCH}
+
 script:
   - echo $BRANCH
   - 'ls -al'
