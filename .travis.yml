@@ -17,7 +17,7 @@ script:
   - 'ls -al'
 
 after_success :
-  - pdw
+  - pwd
   - ls -al
   - mkdir codedeploy
   - zip -r csye6225-web-app-$TRAVIS_JOB_NUMBER.zip ./cloud-native-app/target/cloud-native-app-0.0.1-SNAPSHOT.war infrastructure/aws/codedeploy
