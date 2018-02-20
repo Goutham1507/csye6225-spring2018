@@ -1,10 +1,10 @@
 language: java
 jdk:
   - oraclejdk8
+env:
+  - BRANCH=cicd-lab
 sudo: false
 install: true
-script:
-  - 'ls -al'
 branches:
   only:
     - $BRANCH
