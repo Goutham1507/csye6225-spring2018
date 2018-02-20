@@ -1,30 +1,24 @@
 language: java
 jdk:
-- oraclejdk8
-
+  - oraclejdk8
 sudo: false
 install: true
-
 branches:
   only:
     - $branch
-  
-
-
-script: 
- - ls -al
- - cd ./cloud-native-app
- - mvn clean install -DskipTests=false -Dmaven.javadoc.skip=true -B -V
- - cd ./target
- - ls -al
- - cd ../..
- - ls -al
-
+script:
+  - 'ls -al'
+  - 'cd ./cloud-native-app'
+  - 'mvn clean install -DskipTests=false -Dmaven.javadoc.skip=true -B -V'
+  - 'cd ./target'
+  - 'ls -al'
+  - 'cd ../..'
+  - 'ls -al'
 notifications:
   email:
     recipients:
       - gupta.anu@husky.neu.edu
       - kandpal.d@husky.neu.edu
       - kapse.r@husky.neu.edu
-    on_success: always # default: change
-    on_failure: always # default: always
+    on_success: always
+    on_failure: always
