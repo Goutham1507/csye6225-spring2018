@@ -21,6 +21,20 @@ public class UserAccount {
 
     private String password;
 
+    private String aboutMe;
+
+    public String getAboutMe() {
+        return aboutMe;
+    }
+
+    public void setAboutMe(String aboutMe) {
+        this.aboutMe = aboutMe;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
     // private no arg constructor is needed by jpa.
     /*private UserAccount() {
 

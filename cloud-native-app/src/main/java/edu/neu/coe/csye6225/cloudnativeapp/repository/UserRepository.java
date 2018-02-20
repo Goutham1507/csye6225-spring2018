@@ -7,4 +7,6 @@ public interface UserRepository extends CrudRepository<UserAccount, Long> {
 
 
     public UserAccount findByEmailAddress(String email);
+
+    public UserAccount findById(Long id);
 }
