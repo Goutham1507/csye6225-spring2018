@@ -1,13 +1,12 @@
 language: java
 jdk:
   - oraclejdk8
-env:
-  - BRANCH=cicd-lab
+
 sudo: false
 install: true
 branches:
   only:
-    - $BRANCH
+    - $branch
 script:
   - 'ls -al'
   - 'cd ./cloud-native-app'
