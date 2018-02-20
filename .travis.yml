@@ -5,7 +5,15 @@ jdk:
 sudo: false
 install: true
 
-script: mvn -f ./cloud-native-app/ install -DskipTests=false -Dmaven.javadoc.skip=true -B -V
+branch : $branch
+script: 
+ - ls -al
+ - cd ./cloud-native-app
+ - mvn clean install -DskipTests=false -Dmaven.javadoc.skip=true -B -V
+ - cd ./target
+ - ls -al
+ - cd ../..
+ - ls -al
 
 notifications:
   email:
