@@ -5,7 +5,7 @@ sudo: false
 install: true
 branches:
   only:
-    - $branch
+    - "$branch"
 script:
   - 'ls -al'
   - 'cd ./cloud-native-app'
