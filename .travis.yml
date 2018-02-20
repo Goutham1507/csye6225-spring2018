@@ -5,7 +5,11 @@ jdk:
 sudo: false
 install: true
 
-branch : $branch
+branches : 
+ - only :
+  - $branch
+
+
 script: 
  - ls -al
  - cd ./cloud-native-app
