@@ -1,0 +1,60 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Resources": {
+        "s3Bucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+                "BucketName": "code-deploy.csye6225-spring2018-guptaanu.me.tld"
+            }
+        },
+        "CodeDeployEC2ServiceRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [
+                "ec2.amazonaws.com"
+              ]
+                            },
+                            "Action": [
+              "sts:AssumeRole"
+            ]
+          }
+        ]
+                },
+                "ManagedPolicyArns": [],
+                "Path": "/",
+
+            }
+        },
+        "CodeDeployEC2S3": {
+            "Type": "AWS::IAM::Policy",
+            "Properties": {
+                "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Action": [
+                "s3:Get*",
+                "s3:List*"
+              ],
+                            "Effect": "Allow",
+                            "Resource": "arn:aws:s3:::code-deploy.csye6225-spring2018-guptaanu.me.tld"
+            }
+          ]
+                },
+                "PolicyName": "CodeDeploy-EC2-S3",
+                "Roles": [{
+                    "Ref": "CodeDeployEC2ServiceRole"
+                }]
+
+            }
+        }
+    }
+
+
+}
