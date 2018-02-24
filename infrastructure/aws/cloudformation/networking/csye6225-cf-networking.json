@@ -170,35 +170,35 @@
       "Description" : "The ID of the db subnet1",
       "Value" : { "Ref" : "dbSubnet1" },
       "Export" : {
-        "Name" : "csye6225-Networking-db-subnet1Id"
+        "Name" : "csye6225-devesh-Networking-db-subnet1Id"
       }
     },
     "dbSubnet2Id" : {
       "Description" : "The ID of the db subnet 2",
       "Value" : { "Ref" : "dbSubnet2" },
       "Export" : {
-        "Name" : "csye6225-Networking-db-subnet2Id"
+        "Name" : "csye6225-devesh-Networking-db-subnet2Id"
       }
     },
     "webSubnetId" : {
       "Description" : "The ID of web subnet",
       "Value" : {"Ref" : "webSubnet"},
       "Export" : {
-        "Name" : "csye6225-Networking-web-subnet"
+        "Name" : "csye6225-devesh-Networking-web-subnet"
       }
     },
     "webServerSecurityGroupId" : {
       "Description" : "The ID of web server security group",
       "Value" : {"Ref" : "webServerSecurityGroup"},
       "Export" : {
-        "Name" : "csye6225-Networking-web-security-group"
+        "Name" : "csye6225-devesh-Networking-web-security-group"
       }
     },
     "dbSecurityGroupId" : {
       "Description" : "The ID of web server security group",
       "Value" : {"Ref" : "dbSecurityGroup"},
       "Export" : {
-        "Name" : "csye6225-Networking-db-security-group"
+        "Name" : "csye6225-devesh-Networking-db-security-group"
       }
     } 
   }
