@@ -41,6 +41,7 @@
          "ImageId" : "ami-66506c1c",
          "KeyName" : { "Ref" : "keyTag" },
          "InstanceType" : "t2.micro",
+         "Tags" : [ {"Key" : "Name", "Value" : "EC2Instance"} ],
          "DisableApiTermination" : "true",
           "BlockDeviceMappings": [
             {
@@ -52,14 +53,31 @@
             }
           ],
           "SecurityGroupIds" : [{"Fn::ImportValue" : "csye6225-devesh-Networking-web-security-group"}],
-          "SubnetId" : {"Fn::ImportValue" : "csye6225-devesh-Networking-web-subnet"}
+          "SubnetId" : {"Fn::ImportValue" : "csye6225-Networking-web-subnet"},
+          "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [
+                            "",
+                            [
+                                "#!/bin/bash -xe \n",
+                                "sudo apt-get update \n",
+                                "sudo apt-get install openjdk-8-jdk -y\n",
+                                "sudo yum install -y apache-maven \n",
+                                "sudo wget https://aws-codedeploy-us-east-1.s3.amazonaws.com/latest/install \n",
+                                "sudo chmod +x ./install \n",
+                                "sudo ./install auto \n",
+                                "sudo service codedeploy-agent start \n"
+                            ]
+                        ]
+                    }
+                }
      }
     },
     "myDBSubnetGroup" : {
       "Type" : "AWS::RDS::DBSubnetGroup",
       "Properties" : {
          "DBSubnetGroupDescription" : "Subnet description of db subnets",
-         "SubnetIds" : [ {"Fn::ImportValue" : "csye6225-devesh-Networking-db-subnet1Id"},
+         "SubnetIds" : [ {"Fn::ImportValue" : "csye6225-Networking-db-subnet1Id"},
           {"Fn::ImportValue" : "csye6225-devesh-Networking-db-subnet2Id"} ],
          "Tags" : [ {"Key" : "Name", "Value" : "dbSubnetGroup"} ]
       }
@@ -78,14 +96,15 @@
         "MasterUserPassword" : "csye6225password",
         "DBSubnetGroupName" : {"Ref" : "myDBSubnetGroup"},
         "PubliclyAccessible" : false,
-        "VPCSecurityGroups" : [{"Fn::ImportValue" : "csye6225-devesh-Networking-db-security-group"}]
+        "VPCSecurityGroups" : [{"Fn::ImportValue" : "csye6225-Networking-db-security-group"}]
       }
    },
    "s3Bucket" : {
       "Type" : "AWS::S3::Bucket",
       "Properties" : {
-        "BucketName" : "s3.csye6225-spring2018-kandpald.me"
+        "BucketName" : "s3.csye6225-spring2018-kapser.me"
       }
-   } 
+    }
   }
 }
+
