@@ -3,7 +3,7 @@ echo "Updating Stack"
 stack_name=$1
 echo $stack_name
 
-stackId=$(aws cloudformation create-stack --stack-name $stack_name --template-body file://csye6225-cf-ci-cd.json --parameters --capabilities CAPABILITY_NAMED_IAM --query [StackId] --output text)
+stackId=$(aws cloudformation create-stack --stack-name $stack_name --template-body file://Rugvedi-CICD.json --parameters --capabilities CAPABILITY_NAMED_IAM --query [StackId] --output text)
 echo "#############################"
 echo $stackId
 echo "#############################"

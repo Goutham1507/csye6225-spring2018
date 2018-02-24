@@ -4,7 +4,7 @@
         "s3Bucket": {
             "Type": "AWS::S3::Bucket",
             "Properties": {
-                "BucketName": "code-deploy.csye6225-spring2018-guptaanu.me.tld"
+                "BucketName": "code-deploy.csye6225-spring2018-kapser.me.tld"
             }
         },
         "CodeDeployEC2ServiceRole": {
@@ -42,7 +42,7 @@
                 "s3:List*"
               ],
                             "Effect": "Allow",
-                            "Resource": "arn:aws:s3:::code-deploy.csye6225-spring2018-guptaanu.me.tld"
+                            "Resource": "arn:aws:s3:::code-deploy.csye6225-spring2018-kapser.me.tld"
             }
           ]
                 },
