@@ -39,6 +39,14 @@
          }
       },
 
+      "CodeDeployEC2ServiceRoleInstanceProfile" : {
+    "Type" : "AWS::IAM::InstanceProfile",
+    "Properties" : {
+      "Path" : "/",
+      "Roles" : ["CodeDeployEC2ServiceRole"]
+    }
+  },
+
       "CodeDeployServiceRole": {
          "Type": "AWS::IAM::Role",
          "Properties": {
@@ -151,6 +159,16 @@
          "Properties": {
             "BucketName": "code-deploy.csye6225-spring2018-kapser.me"
          }
+      },
+
+      "Outputs" : {
+         "InstanceProfile1" : {
+            "Description" : "The Instance profile",
+            "Value" : { "Ref" : "CodeDeployEC2ServiceRoleInstanceProfile" },
+            "Export" : {
+            "Name" : "csye6225-cicd-InstanceProfile1"
       }
+    }
    }
+  }
 }
