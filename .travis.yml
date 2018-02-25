@@ -48,6 +48,8 @@ deploy:
     application: CSYE6225WebappCodeDeploy
     deployment_group: CSYE6225WebappCodeDeploy
     wait-until-deployed: true
+    on:
+      all_branches: true
 
 
 notifications:
