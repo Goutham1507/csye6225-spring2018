@@ -30,14 +30,14 @@
         "PolicyDocument": {
           "Version": "2012-10-17",
           "Statement": [
-            {
-              "Effect": "Allow",
-              "Action": [
+    {
+        "Effect": "Allow",
+        "Action": [
                 "s3:Get*",
                 "s3:List*"
               ],
-              "Resource": [
-                "arn:aws:s3::::code-deploy.csye6225-spring2018-guptaanu.me/*"
+        "Resource": [
+                "arn:aws:s3:::code-deploy.csye6225-spring2018-guptaanu.me/*"
               ]
             }
           ]
