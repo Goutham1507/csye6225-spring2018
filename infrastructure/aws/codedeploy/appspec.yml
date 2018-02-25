@@ -2,6 +2,6 @@ version: 0.0
 os: linux
 
 files:
-  - source: /
-    destination: /webapps/cloud-native-app
+  - source: ./cloud-native-app/target/cloud-native-app-0.0.1-SNAPSHOT.war
+    destination: /home/ubuntu
 

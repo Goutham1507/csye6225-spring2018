@@ -16,7 +16,9 @@ after_success:
   - pwd
   - 'ls -al'
   - 'mkdir codedeploy_artifact'
-  - 'zip -r csye6225-web-app-$TRAVIS_JOB_NUMBER.zip cloud-native-app/target/cloud-native-app-0.0.1-SNAPSHOT.war infrastructure/aws/codedeploy'
+  -  cp infrastructure/aws/codedeploy/*.sh .
+  -  cp infrastructure/aws/codedeploy/*.yml .
+  - 'zip -r-j csye6225-web-app-$TRAVIS_JOB_NUMBER.zip cloud-native-app/target/cloud-native-app-0.0.1-SNAPSHOT.war *.sh *.yml'
   - 'ls -al'
   - 'mv csye6225-web-app-$TRAVIS_JOB_NUMBER.zip codedeploy_artifact/'
   - 'ls -al'
