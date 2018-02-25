@@ -49,6 +49,7 @@ deploy:
     bundle_type: zip
     application: CSYE6225WebappCodeDeploy
     deployment_group: CSYE6225WebappCodeDeploy
+    region: us-east-1
     wait-until-deployed: true
     on:
       all_branches: true
