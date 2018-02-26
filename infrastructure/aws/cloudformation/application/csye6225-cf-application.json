@@ -156,7 +156,7 @@
     "s3Bucket": {
       "Type": "AWS::S3::Bucket",
       "Properties": {
-        "BucketName": "s3.csye6225-spring2018-kapser.me"
+        "BucketName": "s3.csye6225-spring2018-kandpald.me"
       }
     }
   }
