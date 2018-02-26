@@ -3,5 +3,27 @@ os: linux
 
 files:
   - source: ./cloud-native-app/target/cloud-native-app-0.0.1-SNAPSHOT.war
-    destination: /home/ubuntu
+    destination: /var/lib/tomcat8/webapps
+
+hooks:
+  AfterInstall:
+   - location: ./afterInstall.sh
+     timeout: 180
+     runas: ubuntu
+  ApplicationStart:
+   - location: ./applicationStart.sh
+     timeout: 180
+     runas: ubuntu
+  #ValidateService:
+   #- location: ./validateService.sh
+     #timeout: 180
+     #runas: ubuntu
+  # ApplicationStop:
+  #  - location: ./applicationStop.sh
+  #    timeout: 180
+  #    runas: ubuntu
+  # BeforeInstall:
+  #  - location: ./beforeInstall.sh
+  #    timeout: 180
+  #    runas: ubuntu
 
