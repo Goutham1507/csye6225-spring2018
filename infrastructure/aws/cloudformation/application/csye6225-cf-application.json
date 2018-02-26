@@ -1,5 +1,5 @@
 {
-  "AWSTemplateFormatVersion" : "2010-09-09",
+  "AWSTemplateFormatVersion": "2010-09-09",
   "Parameters": {
     "subnetExportName1": {
       "Type": "String"
@@ -11,81 +11,153 @@
       "Type": "String"
     }
   },
-  "Resources" : {
-    "myDynamoDBTable" : {
-      "Type" : "AWS::DynamoDB::Table",
-      "Properties" : {
-        "AttributeDefinitions" : [
+  "Resources": {
+    "myDynamoDBTable": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "AttributeDefinitions": [
           {
-            "AttributeName" : "id",
-            "AttributeType" : "S"   
+            "AttributeName": "id",
+            "AttributeType": "S"
           }
         ],
-        "KeySchema" : [
+        "KeySchema": [
           {
-            "AttributeName" : "id",
-            "KeyType" : "HASH"
+            "AttributeName": "id",
+            "KeyType": "HASH"
           }
         ],
-        "ProvisionedThroughput" : {
-          "ReadCapacityUnits" : "5",
-          "WriteCapacityUnits" : "5"
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": "5",
+          "WriteCapacityUnits": "5"
         },
-        "TableName" : "csye6225"
+        "TableName": "csye6225"
       }
-      
     },
-    "ec2Instance" : {
-      "Type" : "AWS::EC2::Instance",
-       "Properties" : {
-         "ImageId" : "ami-66506c1c",
-         "KeyName" : { "Ref" : "keyTag" },
-         "InstanceType" : "t2.micro",
-         "DisableApiTermination" : "true",
-          "BlockDeviceMappings": [
-            {
-              "DeviceName" : "/dev/sda1",
-              "Ebs" : {
-                "VolumeType": "gp2",
-                "VolumeSize": "16"
-              }
+    "ec2Instance": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "ImageId": "ami-66506c1c",
+        "KeyName": {
+          "Ref": "keyTag"
+        },
+        "InstanceType": "t2.micro",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "EC2Instance"
+          }
+        ],
+        "DisableApiTermination": "true",
+        "IamInstanceProfile": {
+          "Fn::ImportValue": "csye6225-cicd-InstanceProfile1"
+        },
+        "BlockDeviceMappings": [
+          {
+            "DeviceName": "/dev/sda1",
+            "Ebs": {
+              "VolumeType": "gp2",
+              "VolumeSize": "16"
             }
-          ],
-          "SecurityGroupIds" : [{"Fn::ImportValue" : "csye6225-devesh-Networking-web-security-group"}],
-          "SubnetId" : {"Fn::ImportValue" : "csye6225-devesh-Networking-web-subnet"}
-     }
+          }
+        ],
+        "SecurityGroupIds": [
+          {
+            "Fn::ImportValue": "csye6225-Networking-web-security-group"
+          }
+        ],
+        "SubnetId": {
+          "Fn::ImportValue": "csye6225-Networking-web-subnet"
+        },
+        "UserData": {
+          "Fn::Base64": {
+            "Fn::Join": [
+              "",
+              [
+                "#!/bin/bash -xe \n",
+                "sudo apt-get update \n",
+                "sudo apt-get install openjdk-8-jdk -y \n",
+                "sudo apt-get install ruby -y \n",
+                "sudo apt-get install wget -y \n",
+                "sudo apt-get install python -y \n",
+                "sudo apt-get update \n",
+                "sudo wget https://aws-codedeploy-us-east-1.s3.amazonaws.com/latest/install \n",
+                "sudo chmod +x ./install \n",
+                "sudo ./install auto \n",
+                "sudo service codedeploy-agent start \n",
+                "sudo apt-get install tomcat8 -y \n",
+                "sudo chmod 777 /var/lib/tomcat8 \n",
+                "sudo echo \"JAVA_OPTS=\\\"\\${JAVA_OPTS} -Dspring.datasource.username=csye6225master -Dspring.datasource.password=csye6225password  -Dspring.profiles.active=dev\\\"\" >> /etc/default/tomcat8 \n",
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "echo 'JAVA_OPTS=\"${JAVA_OPTS} -Dspring.datasource.url=\\\"jdbc:mysql://",
+                      {
+                        "Fn::GetAtt": [
+                          "myRDSInstance",
+                          "Endpoint.Address"
+                        ]
+                      },
+                      ":3306/csye6225\\\"\"' >> /etc/default/tomcat8 \n"
+                    ]
+                  ]
+                },
+                "sudo service tomcat8 restart \n"
+              ]
+            ]
+          }
+        }
+      }
     },
-    "myDBSubnetGroup" : {
-      "Type" : "AWS::RDS::DBSubnetGroup",
-      "Properties" : {
-         "DBSubnetGroupDescription" : "Subnet description of db subnets",
-         "SubnetIds" : [ {"Fn::ImportValue" : "csye6225-devesh-Networking-db-subnet1Id"},
-          {"Fn::ImportValue" : "csye6225-devesh-Networking-db-subnet2Id"} ],
-         "Tags" : [ {"Key" : "Name", "Value" : "dbSubnetGroup"} ]
+    "myDBSubnetGroup": {
+      "Type": "AWS::RDS::DBSubnetGroup",
+      "Properties": {
+        "DBSubnetGroupDescription": "Subnet description of db subnets",
+        "SubnetIds": [
+          {
+            "Fn::ImportValue": "csye6225-Networking-db-subnet1Id"
+          },
+          {
+            "Fn::ImportValue": "csye6225-Networking-db-subnet2Id"
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "dbSubnetGroup"
+          }
+        ]
       }
-   },
-    "myRDSInstance" : {
-      "Type" : "AWS::RDS::DBInstance",
-      "Properties" : {
-         "DBName" : "csye6225",
-         "AllocatedStorage" : "20",
-         "Engine" : "MySQL",
-        "EngineVersion" : "5.6.37",
-        "DBInstanceClass" : "db.t2.medium",
-        "MultiAZ" : false,
-        "DBInstanceIdentifier" : "csye6225-spring2018",
-        "MasterUsername" : "csye6225master",
-        "MasterUserPassword" : "csye6225password",
-        "DBSubnetGroupName" : {"Ref" : "myDBSubnetGroup"},
-        "PubliclyAccessible" : false,
-        "VPCSecurityGroups" : [{"Fn::ImportValue" : "csye6225-devesh-Networking-db-security-group"}]
+    },
+    "myRDSInstance": {
+      "Type": "AWS::RDS::DBInstance",
+      "Properties": {
+        "DBName": "csye6225",
+        "AllocatedStorage": "20",
+        "Engine": "MySQL",
+        "EngineVersion": "5.6.37",
+        "DBInstanceClass": "db.t2.medium",
+        "MultiAZ": false,
+        "DBInstanceIdentifier": "csye6225-spring2018",
+        "MasterUsername": "csye6225master",
+        "MasterUserPassword": "csye6225password",
+        "DBSubnetGroupName": {
+          "Ref": "myDBSubnetGroup"
+        },
+        "PubliclyAccessible": false,
+        "VPCSecurityGroups": [
+          {
+            "Fn::ImportValue": "csye6225-Networking-db-security-group"
+          }
+        ]
       }
-   },
-   "s3Bucket" : {
-      "Type" : "AWS::S3::Bucket",
-      "Properties" : {
-        "BucketName" : "s3.csye6225-spring2018-kandpald.me"
+    },
+    "s3Bucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketName": "s3.csye6225-spring2018-kapser.me"
       }
-   } 
+    }
   }
 }

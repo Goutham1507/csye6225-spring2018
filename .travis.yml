@@ -1,47 +1,62 @@
 language: java
 jdk:
   - oraclejdk8
+<<<<<<< HEAD
 
+=======
+>>>>>>> b244981690ae2348bc067c1362728f8202ac09ff
 sudo: false
 install: true
-
-
 script:
-  - echo $BRANCH
-  - 'ls -al'
+  - pwd
   - 'cd ./cloud-native-app'
-  - 'mvn clean install -DskipTests=false -Dmaven.javadoc.skip=true -B -V'
+  - 'mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -B -V'
   - 'cd ./target'
   - 'ls -al'
   - 'cd ../..'
   - 'ls -al'
-
-after_success :
   - pwd
-  - ls -al
-  - mkdir codedeploy_artifact
-  - zip -r csye6225-web-app-$TRAVIS_JOB_NUMBER.zip ./cloud-native-app/target/cloud-native-app-0.0.1-SNAPSHOT.war infrastructure/aws/codedeploy
-  - ls -al
-  - mv csye6225-web-app-$TRAVIS_JOB_NUMBER.zip codedeploy_artifact/
-  - ls -al
+after_success:
   - pwd
-  - cd codedeploy_artifact
-  - ls -al
+  - 'ls -al'
+  - 'mkdir codedeploy_artifact'
+  -  cp infrastructure/aws/codedeploy/*.sh .
+  -  cp infrastructure/aws/codedeploy/*.yml .
+  - 'zip -r csye6225-web-app-$TRAVIS_JOB_NUMBER.zip cloud-native-app/target/cloud-native-app-0.0.1-SNAPSHOT.war *.sh *.yml'
+  - 'ls -al'
+  - 'mv csye6225-web-app-$TRAVIS_JOB_NUMBER.zip codedeploy_artifact/'
+  - 'ls -al'
   - pwd
-  - cd ..
+  - 'cd codedeploy_artifact'
+  - 'ls -al'
   - pwd
-  - ls -al
-
+  - 'cd ..'
+  - pwd
+  - 'ls -al'
 deploy:
-    provider : s3
-    local_dir : codedeploy_artifact
-    bucket : $s3_bucket
-    region : us-east-1
+  -
+    provider: s3
+    local_dir: codedeploy_artifact
+    bucket: $s3_bucket
+    region: us-east-1
     skip_cleanup: true
-    access_key_id : $access_key_id
-    secret_access_key : $secret_access_key
+    access_key_id: $access_key_id
+    secret_access_key: $secret_access_key
     on:
-      branch: cicd-lab
+      all_branches: true
+  -
+    provider: codedeploy
+    access_key_id: $access_key_id
+    secret_access_key: $secret_access_key
+    bucket: $s3_bucket
+    key: csye6225-web-app-$TRAVIS_JOB_NUMBER.zip
+    bundle_type: zip
+    application: CSYE6225WebappCodeDeploy
+    deployment_group: CSYE6225WebappCodeDeploy
+    region: us-east-1
+    wait-until-deployed: true
+    on:
+      all_branches: true
 
 
 notifications:
@@ -50,5 +65,4 @@ notifications:
       - gupta.anu@husky.neu.edu
       - kandpal.d@husky.neu.edu
       - kapse.r@husky.neu.edu
-    on_success: always
     on_failure: always
