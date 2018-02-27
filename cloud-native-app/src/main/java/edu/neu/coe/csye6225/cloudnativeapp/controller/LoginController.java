@@ -74,10 +74,9 @@ public class LoginController {
 
         if (userService.CheckIfEmailExists(user.getEmailAddress())) {
 
-            RedirectView rv = new RedirectView();
+            RedirectView rv = new RedirectView("/createAccount",true);
             redirectAttributes.addFlashAttribute("UserExists", true);
 
-            rv.setUrl("/createAccount");
             return rv;
         }
 
@@ -85,8 +84,7 @@ public class LoginController {
         userService.save(user);
         securityService.autologin(user.getEmailAddress(), originalPwd);
         //model.addAttribute("profileInfo", user);
-        RedirectView rv = new RedirectView();
-        rv.setUrl("/");
+        RedirectView rv = new RedirectView("/",true);
         return rv;
 
     }

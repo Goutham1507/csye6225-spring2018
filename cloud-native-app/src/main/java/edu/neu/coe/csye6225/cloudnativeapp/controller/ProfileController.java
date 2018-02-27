@@ -36,8 +36,7 @@ public class ProfileController {
     public RedirectView uploadProfilePic(@RequestParam("profile-pic") MultipartFile file) {
 
         uploadClient.storeProfilePic(file);
-        RedirectView rv = new RedirectView();
-        rv.setUrl("/");
+        RedirectView rv = new RedirectView("/",true);
         return rv;
 
 
@@ -61,8 +60,7 @@ public class ProfileController {
     public
     RedirectView deleteProfilePic() {
         uploadClient.deleteProfilePic();
-        RedirectView rv = new RedirectView();
-        rv.setUrl("/");
+        RedirectView rv = new RedirectView("/",true);
         return rv;
 
     }
@@ -77,8 +75,7 @@ public class ProfileController {
         userAccount.setAboutMe(user.getAboutMe());
 
         userService.saveUserAccount(userAccount);
-        RedirectView rv = new RedirectView();
-        rv.setUrl("/");
+        RedirectView rv = new RedirectView("/",true);
         return rv;
 
     }
