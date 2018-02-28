@@ -49,7 +49,7 @@ public class AmazonClient implements UploadClient {
     @Override
     public void storeProfilePic(MultipartFile file) {
 
-        System.out.println("STORING PROFILE PIC");
+        System.out.println("STORING PROFILE PIC :" + bucketName);
         deleteProfilePic();
         UserAccount loggedInUsername = securityService.findLoggedInUsername();
         String[] split = file.getOriginalFilename().split("\\.");
