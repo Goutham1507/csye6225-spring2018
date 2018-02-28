@@ -34,7 +34,7 @@ public class ProfileController {
 
     @PostMapping("/upload")
     public RedirectView uploadProfilePic(@RequestParam("profile-pic") MultipartFile file) {
-
+        System.out.println("REQUEST RECEIVE FOR UPLOAD");
         uploadClient.storeProfilePic(file);
         RedirectView rv = new RedirectView("/",true);
         return rv;

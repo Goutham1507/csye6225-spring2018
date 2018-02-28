@@ -49,7 +49,7 @@ public class AmazonClient implements UploadClient {
     @Override
     public void storeProfilePic(MultipartFile file) {
 
-
+        System.out.println("STORING PROFILE PIC");
         deleteProfilePic();
         UserAccount loggedInUsername = securityService.findLoggedInUsername();
         String[] split = file.getOriginalFilename().split("\\.");
@@ -62,8 +62,9 @@ public class AmazonClient implements UploadClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        System.out.println("ABOUT TO STORE IN S3");
         s3Client.putObject(bucketName, PROFILE_DIR + fileName, inputStream, new ObjectMetadata());
+        System.out.println("ABOUT TO STORE IN S3, DONE");
 
     }
 
@@ -96,7 +97,7 @@ public class AmazonClient implements UploadClient {
 
     public void deleteProfilePic() {
 
-
+        System.out.println("DELETING PROFILE PICTURE");
         UserAccount loggedInUsername = securityService.findLoggedInUsername();
         String id = loggedInUsername.getId().toString();
         String key = PROFILE_DIR + FILE_NAME_PRE + id;

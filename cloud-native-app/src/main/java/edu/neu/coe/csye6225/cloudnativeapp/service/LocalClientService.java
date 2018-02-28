@@ -29,7 +29,7 @@ public class LocalClientService implements UploadClient {
 
     public void storeProfilePic(MultipartFile file) {
 
-
+        System.out.println("REQUEST RECEIVE FOR LOCAL UPLOAD");
 
         deleteProfilePic();
         UserAccount loggedInUsername = securityService.findLoggedInUsername();
