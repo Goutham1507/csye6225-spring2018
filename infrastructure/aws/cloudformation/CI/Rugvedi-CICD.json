@@ -188,6 +188,7 @@
     },
     "s3Bucket": {
       "Type": "AWS::S3::Bucket",
+      "DeletionPolicy" : "Delete",
       "Properties": {
         "BucketName": "code-deploy.csye6225-spring2018-kapser.me"
       }
