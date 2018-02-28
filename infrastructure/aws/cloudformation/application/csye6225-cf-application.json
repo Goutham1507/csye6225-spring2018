@@ -76,7 +76,7 @@
               [
                 "#!/bin/bash -xe \n",
                 "sudo apt-get update \n",
-                "sudo apt-get install openjdk-8-jdk -y\n",
+                "sudo apt-get install openjdk-8-jdk -y \n",
                 "sudo apt-get install ruby -y \n",
                 "sudo apt-get install wget -y \n",
                 "sudo apt-get install python -y \n",
@@ -85,7 +85,25 @@
                 "sudo chmod +x ./install \n",
                 "sudo ./install auto \n",
                 "sudo service codedeploy-agent start \n",
-                "sudo echo \"JAVA_OPTS=\\\"\\${JAVA_OPTS} -Dspring.profiles.active=dev\\\"\" >> /etc/default/tomcat8 \n"
+                "sudo apt-get install tomcat8 -y \n",
+                "sudo chmod 777 /var/lib/tomcat8 \n",
+                "sudo echo \"JAVA_OPTS=\\\"\\${JAVA_OPTS} -Dspring.datasource.username=csye6225master -Dspring.datasource.password=csye6225password  -Dspring.profiles.active=dev\\\"\" >> /etc/default/tomcat8 \n",
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "echo 'JAVA_OPTS=\"${JAVA_OPTS} -Dspring.datasource.url=\\\"jdbc:mysql://",
+                      {
+                        "Fn::GetAtt": [
+                          "myRDSInstance",
+                          "Endpoint.Address"
+                        ]
+                      },
+                      ":3306/csye6225\\\"\"' >> /etc/default/tomcat8 \n"
+                    ]
+                  ]
+                },
+                "sudo service tomcat8 restart \n"
               ]
             ]
           }
