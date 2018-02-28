@@ -7,6 +7,8 @@ import edu.neu.coe.csye6225.cloudnativeapp.service.AmazonClient;
 import edu.neu.coe.csye6225.cloudnativeapp.service.SecurityServiceImpl;
 import edu.neu.coe.csye6225.cloudnativeapp.service.UploadClient;
 import edu.neu.coe.csye6225.cloudnativeapp.service.UserService;
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,10 +17,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 
+
+
 @Controller
+@Slf4j
 public class LoginController {
 
 
@@ -32,6 +39,8 @@ public class LoginController {
     @Autowired
     UploadClient uploadClient;
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
     @RequestMapping("/createAccount")
     public String home(Model model) {
@@ -43,10 +52,18 @@ public class LoginController {
     @RequestMapping("/")
     public String profile(Model model) {
 
+
+        logger.debug("Entered profile method");
+
+
         UserAccount loggedInUser = securityService.findLoggedInUsername();
         uploadClient.getProfilePic();
         model.addAttribute("profileInfo", loggedInUser);
+
+        logger.debug("End profile method");
         return "ProfileDashboard";
+
+
 
 
     }

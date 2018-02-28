@@ -6,6 +6,8 @@ import edu.neu.coe.csye6225.cloudnativeapp.domain.UserAccount;
 import edu.neu.coe.csye6225.cloudnativeapp.service.SecurityServiceImpl;
 import edu.neu.coe.csye6225.cloudnativeapp.service.UploadClient;
 import edu.neu.coe.csye6225.cloudnativeapp.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
@@ -32,11 +34,17 @@ public class ProfileController {
     @Autowired
     SecurityServiceImpl securityService;
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @PostMapping("/upload")
     public RedirectView uploadProfilePic(@RequestParam("profile-pic") MultipartFile file) {
 
+        logger.debug("Inside upload profile pic");
+
         uploadClient.storeProfilePic(file);
         RedirectView rv = new RedirectView("/",true);
+
+        logger.debug("Completed uploading profile pio");
         return rv;
 
 
