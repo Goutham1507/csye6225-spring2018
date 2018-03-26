@@ -38,12 +38,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().ignoringAntMatchers("/upload");
         http.csrf().ignoringAntMatchers("/profilePic");
         http.csrf().ignoringAntMatchers("/offlineProfile/*");
+        http.csrf().ignoringAntMatchers("/resetPassword");
 
         http
                 .authorizeRequests()
                     .antMatchers("/createAccount").permitAll()
                 .antMatchers("/profilePic").permitAll()
                 .antMatchers("/offlineProfile/*").permitAll()
+                .antMatchers("/resetPassword").permitAll()
                     .anyRequest().
                 authenticated()
             .and()
