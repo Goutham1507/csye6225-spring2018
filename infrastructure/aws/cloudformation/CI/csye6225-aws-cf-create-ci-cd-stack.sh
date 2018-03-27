@@ -6,7 +6,7 @@ bucketNamePicUpload=$3
 echo $stack_name
 
 stackId=$(aws cloudformation create-stack --stack-name $stack_name --template-body \
- file://anubhav-CICD.json --parameters \
+ file://csye6225-cf-cicd.json --parameters \
  ParameterKey=bucketName,ParameterValue=$bucket_name \
  ParameterKey=bucketNamePicUpload,ParameterValue=$bucketNamePicUpload \
  --capabilities CAPABILITY_NAMED_IAM --query [StackId] --output text)
