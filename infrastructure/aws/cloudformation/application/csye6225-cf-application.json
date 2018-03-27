@@ -9,6 +9,9 @@
     },
     "keyTag": {
       "Type": "String"
+    },
+    "bucketName": {
+      "Type": "String"
     }
   },
   "Resources": {
@@ -156,7 +159,9 @@
     "s3Bucket": {
       "Type": "AWS::S3::Bucket",
       "Properties": {
-        "BucketName": "s3.csye6225-spring2018-kapser.me"
+        "BucketName": {
+          "Ref": "bucketName"
+        }
       }
     }
   }
