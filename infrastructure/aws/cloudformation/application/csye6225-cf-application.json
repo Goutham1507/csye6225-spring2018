@@ -100,7 +100,19 @@
                 "sudo service codedeploy-agent start \n",
                 "sudo apt-get install tomcat8 -y \n",
                 "sudo chmod 777 /var/lib/tomcat8 \n",
-                "sudo echo \"JAVA_OPTS=\\\"\\${JAVA_OPTS} -Dspring.datasource.username=csye6225master -Dspring.datasource.password=csye6225password -Dspring.profiles.active=dev -DamazonProperties.bucketName=s3.csye6225-spring2018-guptaanu.me\\\"\" >> /etc/default/tomcat8 \n",
+                "sudo echo \"JAVA_OPTS=\\\"\\${JAVA_OPTS} -Dspring.datasource.username=csye6225master -Dspring.datasource.password=csye6225password -Dspring.profiles.active=dev ",
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "-DamazonProperties.bucketName=",
+                      {
+                        "Ref": "bucketName"
+                      },
+                      "\\\"\" >> /etc/default/tomcat8 \n"
+                    ]
+                  ]
+                },
                 {
                   "Fn::Join": [
                     "",
