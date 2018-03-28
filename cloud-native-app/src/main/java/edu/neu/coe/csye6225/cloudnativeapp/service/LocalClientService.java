@@ -121,7 +121,7 @@ public class LocalClientService implements UploadClient {
         String fileName = FILE_NAME_PRE + id;
         String folderName = System.getProperty("user.dir") + "/Profile_Pics";
 
-        logger.debug("Folder Name is ", folderName);
+        logger.info("Folder Name is ", folderName);
 
 
         File folder = new File(folderName);

@@ -53,14 +53,14 @@ public class LoginController {
     public String profile(Model model) {
 
 
-        logger.debug("Entered profile method");
+        logger.info("Entered profile method");
 
 
         UserAccount loggedInUser = securityService.findLoggedInUsername();
         uploadClient.getProfilePic();
         model.addAttribute("profileInfo", loggedInUser);
 
-        logger.debug("End profile method");
+        logger.info("End profile method");
         return "ProfileDashboard";
 
 

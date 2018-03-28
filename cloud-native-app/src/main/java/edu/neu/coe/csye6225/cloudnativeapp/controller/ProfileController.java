@@ -39,12 +39,12 @@ public class ProfileController {
     @PostMapping("/upload")
     public RedirectView uploadProfilePic(@RequestParam("profile-pic") MultipartFile file) {
 
-        logger.debug("Inside upload profile pic");
+        logger.info("Inside upload profile pic");
 
         uploadClient.storeProfilePic(file);
         RedirectView rv = new RedirectView("/",true);
 
-        logger.debug("Completed uploading profile pio");
+        logger.info("Completed uploading profile pio");
         return rv;
 
 

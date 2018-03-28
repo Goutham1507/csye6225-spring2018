@@ -53,7 +53,7 @@ public class AmazonClient implements UploadClient {
     @Override
     public void storeProfilePic(MultipartFile file) {
 
-        logger.debug("Inside store Profile Pic");
+        logger.info("Inside store Profile Pic");
 
 
         deleteProfilePic();
@@ -63,8 +63,8 @@ public class AmazonClient implements UploadClient {
         String id = loggedInUsername.getId().toString();
         String fileName = FILE_NAME_PRE + id + DOT + contentType;
 
-        logger.debug("File Name is ", fileName);
-        logger.debug("Bucket Name is ", bucketName);
+        logger.info("File Name is ", fileName);
+        logger.info("Bucket Name is ", bucketName);
         InputStream inputStream = null;
         try {
             inputStream = file.getInputStream();
@@ -74,14 +74,14 @@ public class AmazonClient implements UploadClient {
 
         s3Client.putObject(bucketName, PROFILE_DIR + fileName, inputStream, new ObjectMetadata());
 
-        logger.debug("Successfully Stored Profile Pic");
+        logger.info("Successfully Stored Profile Pic");
 
     }
 
 
     public InputStream getProfilePic() {
 
-        logger.debug("Inside Get Profile Pic");
+        logger.info("Inside Get Profile Pic");
 
         UserAccount loggedInUsername = securityService.findLoggedInUsername();
         String id = loggedInUsername.getId().toString();
@@ -96,7 +96,7 @@ public class AmazonClient implements UploadClient {
                 .map(o -> o.getKey())
                 .findAny().orElse(null);
 
-        logger.debug("Pic keyName is -----", keyName);
+        logger.info("Pic keyName is -----", keyName);
 
         if (keyName == null) {
 
@@ -104,7 +104,7 @@ public class AmazonClient implements UploadClient {
         }
 
         S3Object object = s3Client.getObject(new GetObjectRequest(bucketName, keyName));
-        logger.debug("Completed Get Profile Pic");
+        logger.info("Completed Get Profile Pic");
         return object.getObjectContent();
 
 
@@ -115,7 +115,7 @@ public class AmazonClient implements UploadClient {
     public void deleteProfilePic() {
 
 
-        logger.debug("Inside Delete Profile Pic");
+        logger.info("Inside Delete Profile Pic");
 
 
         UserAccount loggedInUsername = securityService.findLoggedInUsername();
@@ -138,7 +138,7 @@ public class AmazonClient implements UploadClient {
 
         s3Client.deleteObject(new DeleteObjectRequest(bucketName, keyName));
 
-        logger.debug("Completed Delete Profile Pic");
+        logger.info("Completed Delete Profile Pic");
 
 
     }
