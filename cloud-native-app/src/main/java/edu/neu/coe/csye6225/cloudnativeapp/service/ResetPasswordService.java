@@ -24,9 +24,6 @@ public class ResetPasswordService {
 
     AmazonSNSAsync amazonSNSClient;
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-
     @PostConstruct
     public void initializeSNSClient() {
 
@@ -37,13 +34,13 @@ public class ResetPasswordService {
     public void sendMessage(String emailId) throws ExecutionException, InterruptedException {
 
 
-        logger.info("Sending Message --- {} ", emailId);
+        log.info("Sending Message --- {} ", emailId);
         Future<CreateTopicResult> reset_password = amazonSNSClient.createTopicAsync("reset_password");
         String topicArn = reset_password.get().getTopicArn();
         PublishRequest publishRequest = new PublishRequest(topicArn, emailId);
         Future<PublishResult> publishResultFuture = amazonSNSClient.publishAsync(publishRequest);
         String messageId = publishResultFuture.get().getMessageId();
-        logger.info("Send Message {} with message Id {} ", emailId, messageId);
+        log.info("Send Message {} with message Id {} ", emailId, messageId);
 
 
     }

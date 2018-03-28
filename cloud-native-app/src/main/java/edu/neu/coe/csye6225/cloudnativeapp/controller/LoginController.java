@@ -3,11 +3,9 @@ package edu.neu.coe.csye6225.cloudnativeapp.controller;
 
 import edu.neu.coe.csye6225.cloudnativeapp.User.ProfileInformation;
 import edu.neu.coe.csye6225.cloudnativeapp.domain.UserAccount;
-import edu.neu.coe.csye6225.cloudnativeapp.service.AmazonClient;
 import edu.neu.coe.csye6225.cloudnativeapp.service.SecurityServiceImpl;
 import edu.neu.coe.csye6225.cloudnativeapp.service.UploadClient;
 import edu.neu.coe.csye6225.cloudnativeapp.service.UserService;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,15 +15,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 import java.util.Date;
 
-
-
-@Controller
 @Slf4j
+@Controller
 public class LoginController {
 
 
@@ -39,7 +34,6 @@ public class LoginController {
     @Autowired
     UploadClient uploadClient;
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
     @RequestMapping("/createAccount")
@@ -53,17 +47,14 @@ public class LoginController {
     public String profile(Model model) {
 
 
-        logger.info("Entered profile method");
-
+        log.info("Entered profile method");
 
         UserAccount loggedInUser = securityService.findLoggedInUsername();
         uploadClient.getProfilePic();
         model.addAttribute("profileInfo", loggedInUser);
 
-        logger.info("End profile method");
+        log.info("End profile method");
         return "ProfileDashboard";
-
-
 
 
     }
@@ -91,7 +82,7 @@ public class LoginController {
 
         if (userService.CheckIfEmailExists(user.getEmailAddress())) {
 
-            RedirectView rv = new RedirectView("/createAccount",true);
+            RedirectView rv = new RedirectView("/createAccount", true);
             redirectAttributes.addFlashAttribute("UserExists", true);
 
             return rv;
@@ -101,7 +92,7 @@ public class LoginController {
         userService.save(user);
         securityService.autologin(user.getEmailAddress(), originalPwd);
         //model.addAttribute("profileInfo", user);
-        RedirectView rv = new RedirectView("/",true);
+        RedirectView rv = new RedirectView("/", true);
         return rv;
 
     }

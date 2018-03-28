@@ -2,6 +2,7 @@ package edu.neu.coe.csye6225.cloudnativeapp.service;
 
 
 import edu.neu.coe.csye6225.cloudnativeapp.domain.UserAccount;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.util.Arrays;
 
 @Service
 @Profile("!dev")
+@Slf4j
 public class LocalClientService implements UploadClient {
 
 
@@ -27,8 +29,6 @@ public class LocalClientService implements UploadClient {
     private static final String DOT = ".";
 
     private static final String PROFILE_PIC_DIR = "/Profile_Pics/";
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
     public void storeProfilePic(MultipartFile file) {
@@ -121,7 +121,7 @@ public class LocalClientService implements UploadClient {
         String fileName = FILE_NAME_PRE + id;
         String folderName = System.getProperty("user.dir") + "/Profile_Pics";
 
-        logger.info("Folder Name is ", folderName);
+        log.info("Folder Name is {} ", folderName);
 
 
         File folder = new File(folderName);
