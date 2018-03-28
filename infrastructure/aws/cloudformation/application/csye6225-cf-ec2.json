@@ -15,38 +15,6 @@
     }
   },
   "Resources": {
-    "myDynamoDBTable": {
-      "Type": "AWS::DynamoDB::Table",
-      "Properties": {
-        "AttributeDefinitions": [
-          {
-            "AttributeName": "id",
-            "AttributeType": "S"
-          }
-        ],
-        "KeySchema": [
-          {
-            "AttributeName": "id",
-            "KeyType": "HASH"
-          }
-        ],
-        "TimeToLiveSpecification": {
-          "AttributeName": "ttl",
-          "Enabled": true
-        },
-        "ProvisionedThroughput": {
-          "ReadCapacityUnits": "5",
-          "WriteCapacityUnits": "5"
-        },
-        "TableName": "csye6225"
-      }
-    },
-    "SNSTopic": {
-      "Type": "AWS::SNS::Topic",
-      "Properties": {
-        "TopicName": "password_reset"
-      }
-    },
     "ec2Instance": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
@@ -108,7 +76,9 @@
                       "echo 'JAVA_OPTS=\"${JAVA_OPTS} -Dspring.datasource.url=\\\"jdbc:mysql://",
                       {
                         "Fn::GetAtt": [
-                          "myRDSInstance",
+                          {
+                            "Fn::ImportValue": "myRDSInstance"
+                          },
                           "Endpoint.Address"
                         ]
                       },
@@ -126,68 +96,6 @@
             ]
           }
         }
-      }
-    },
-    "myDBSubnetGroup": {
-      "Type": "AWS::RDS::DBSubnetGroup",
-      "Properties": {
-        "DBSubnetGroupDescription": "Subnet description of db subnets",
-        "SubnetIds": [
-          {
-            "Fn::ImportValue": "csye6225-Networking-db-subnet1Id"
-          },
-          {
-            "Fn::ImportValue": "csye6225-Networking-db-subnet2Id"
-          }
-        ],
-        "Tags": [
-          {
-            "Key": "Name",
-            "Value": "dbSubnetGroup"
-          }
-        ]
-      }
-    },
-    "myRDSInstance": {
-      "Type": "AWS::RDS::DBInstance",
-      "Properties": {
-        "DBName": "csye6225",
-        "AllocatedStorage": "20",
-        "Engine": "MySQL",
-        "EngineVersion": "5.6.37",
-        "DBInstanceClass": "db.t2.medium",
-        "MultiAZ": false,
-        "DBInstanceIdentifier": "csye6225-spring2018",
-        "MasterUsername": "csye6225master",
-        "MasterUserPassword": "csye6225password",
-        "DBSubnetGroupName": {
-          "Ref": "myDBSubnetGroup"
-        },
-        "PubliclyAccessible": false,
-        "VPCSecurityGroups": [
-          {
-            "Fn::ImportValue": "csye6225-Networking-db-security-group"
-          }
-        ]
-      }
-    },
-    "s3Bucket": {
-      "Type": "AWS::S3::Bucket",
-      "Properties": {
-        "BucketName": {
-          "Ref": "bucketName"
-        }
-      }
-    }
-  },
-  "Outputs": {
-    "myRDS": {
-      "Description": "The ID of the db subnet 2",
-      "Value": {
-        "Ref": "myRDSInstance"
-      },
-      "Export": {
-        "Name": "myRDSInstance"
       }
     }
   }
