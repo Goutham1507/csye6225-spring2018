@@ -113,7 +113,7 @@
                         ]
                       },
                       ":3306/csye6225\\\" ",
-                      "--amazonProperties.bucketName=",
+                      "-DamazonProperties.bucketName=",
                       {
                         "Ref": "bucketName"
                       },
@@ -184,10 +184,13 @@
     "myRDS": {
       "Description": "The ID of the db subnet 2",
       "Value": {
-        "Ref": "myRDSInstance"
+        "Fn::GetAtt": [
+          "myRDSInstance",
+          "Endpoint.Address"
+        ]
       },
       "Export": {
-        "Name": "myRDSInstance"
+        "Name": "RDSEndpoint"
       }
     }
   }
