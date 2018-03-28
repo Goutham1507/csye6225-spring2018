@@ -1,12 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Parameters": {
-    "subnetExportName1": {
-      "Type": "String"
-    },
-    "subnetExportName2": {
-      "Type": "String"
-    },
     "keyTag": {
       "Type": "String"
     },
