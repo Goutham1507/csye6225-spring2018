@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.*;
 import edu.neu.coe.csye6225.cloudnativeapp.domain.UserAccount;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import java.util.Arrays;
 
 @Service
 @Profile("dev")
+@Slf4j
 public class AmazonClient implements UploadClient {
 
     private AmazonS3 s3Client;
@@ -37,7 +39,6 @@ public class AmazonClient implements UploadClient {
 
     private static final String DOT = ".";
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
     @PostConstruct
@@ -53,7 +54,7 @@ public class AmazonClient implements UploadClient {
     @Override
     public void storeProfilePic(MultipartFile file) {
 
-        logger.debug("Inside store Profile Pic");
+        log.info("Inside store Profile Pic");
 
 
         deleteProfilePic();
@@ -63,8 +64,8 @@ public class AmazonClient implements UploadClient {
         String id = loggedInUsername.getId().toString();
         String fileName = FILE_NAME_PRE + id + DOT + contentType;
 
-        logger.debug("File Name is ", fileName);
-        logger.debug("Bucket Name is ", bucketName);
+        log.info("File Name is ", fileName);
+        log.info("Bucket Name is ", bucketName);
         InputStream inputStream = null;
         try {
             inputStream = file.getInputStream();
@@ -74,14 +75,14 @@ public class AmazonClient implements UploadClient {
 
         s3Client.putObject(bucketName, PROFILE_DIR + fileName, inputStream, new ObjectMetadata());
 
-        logger.debug("Successfully Stored Profile Pic");
+        log.info("Successfully Stored Profile Pic");
 
     }
 
 
     public InputStream getProfilePic() {
 
-        logger.debug("Inside Get Profile Pic");
+        log.info("Inside Get Profile Pic");
 
         UserAccount loggedInUsername = securityService.findLoggedInUsername();
         String id = loggedInUsername.getId().toString();
@@ -96,7 +97,7 @@ public class AmazonClient implements UploadClient {
                 .map(o -> o.getKey())
                 .findAny().orElse(null);
 
-        logger.debug("Pic keyName is -----", keyName);
+        log.info("Pic keyName is -----", keyName);
 
         if (keyName == null) {
 
@@ -104,7 +105,7 @@ public class AmazonClient implements UploadClient {
         }
 
         S3Object object = s3Client.getObject(new GetObjectRequest(bucketName, keyName));
-        logger.debug("Completed Get Profile Pic");
+        log.info("Completed Get Profile Pic");
         return object.getObjectContent();
 
 
@@ -115,7 +116,7 @@ public class AmazonClient implements UploadClient {
     public void deleteProfilePic() {
 
 
-        logger.debug("Inside Delete Profile Pic");
+        log.info("Inside Delete Profile Pic");
 
 
         UserAccount loggedInUsername = securityService.findLoggedInUsername();
@@ -138,7 +139,7 @@ public class AmazonClient implements UploadClient {
 
         s3Client.deleteObject(new DeleteObjectRequest(bucketName, keyName));
 
-        logger.debug("Completed Delete Profile Pic");
+        log.info("Completed Delete Profile Pic");
 
 
     }
