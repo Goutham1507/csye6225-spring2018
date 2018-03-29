@@ -44,7 +44,7 @@
     "SNSTopic": {
       "Type": "AWS::SNS::Topic",
       "Properties": {
-        "TopicName": "password_reset"
+        "TopicName": "reset_password"
       }
     },
     "ec2Instance": {
@@ -100,6 +100,17 @@
                 "sudo service codedeploy-agent start \n",
                 "sudo apt-get install tomcat8 -y \n",
                 "sudo chmod 777 /var/lib/tomcat8 \n",
+
+                "sudo wget https://s3.amazonaws.com/amazoncloudwatch-agent/linux/amd64/latest/AmazonCloudWatchAgent.zip \n",
+                "sudo apt-get install -y unzip \n",
+                "sudo unzip AmazonCloudWatchAgent.zip \n",
+                "sudo ./install.sh \n",
+                "sudo wget https://s3.amazonaws.com/configfileforcloudwatch/amazon-cloudwatch-agent.json \n",
+                "sudo cp amazon-cloudwatch-agent.json /opt/aws/amazon-cloudwatch-agent/etc/ \n",
+                "sudo wget https://s3.amazonaws.com/configfileforcloudwatch/amazon-cloudwatch-agent.service \n",
+                "sudo cp amazon-cloudwatch-agent.service /etc/systemd/system/ \n",
+                "sudo systemctl enable amazon-cloudwatch-agent.service \n",
+                "sudo systemctl start amazon-cloudwatch-agent.service \n",
                 "sudo echo \"JAVA_OPTS=\\\"\\${JAVA_OPTS} -Dspring.datasource.username=csye6225master -Dspring.datasource.password=csye6225password -Dspring.profiles.active=dev ",
                 {
                   "Fn::Join": [
