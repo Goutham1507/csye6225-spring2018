@@ -20,13 +20,13 @@
       "Properties": {
         "AttributeDefinitions": [
           {
-            "AttributeName": "id",
+            "AttributeName": "email",
             "AttributeType": "S"
           }
         ],
         "KeySchema": [
           {
-            "AttributeName": "id",
+            "AttributeName": "email",
             "KeyType": "HASH"
           }
         ],
@@ -38,7 +38,7 @@
           "ReadCapacityUnits": "5",
           "WriteCapacityUnits": "5"
         },
-        "TableName": "csye6225"
+        "TableName": "UserToken"
       }
     },
     "SNSTopic": {
