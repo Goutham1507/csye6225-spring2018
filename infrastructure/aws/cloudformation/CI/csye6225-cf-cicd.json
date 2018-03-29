@@ -171,6 +171,11 @@
                   ]
                 }
               ]
+            },
+            {
+              "Effect": "Allow",
+              "Action": "sns:ListTopics",
+              "Resource": "*"
             }
           ]
         },
