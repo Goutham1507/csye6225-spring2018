@@ -12,9 +12,9 @@
     "CodeDeployEC2ServiceRole": {
       "Type": "AWS::IAM::Role",
       "Properties": {
-        "ManagedPolicyArns":[  
-               "arn:aws:iam::aws:policy/CloudWatchAgentAdminPolicy"
-            ],
+        "ManagedPolicyArns": [
+          "arn:aws:iam::aws:policy/CloudWatchAgentAdminPolicy"
+        ],
         "AssumeRolePolicyDocument": {
           "Version": "2012-10-17",
           "Statement": [
@@ -34,33 +34,33 @@
         "Path": "/"
       }
     },
-    "CloudWatchRolePolicy":{  
-         "Type":"AWS::IAM::ManagedPolicy",
-         "Properties":{  
-            "PolicyDocument":{  
-               "Version":"2012-10-17",
-               "Statement":[  
-                  {  
-                     "Effect":"Allow",
-                     "Action":[  
-                        "logs:CreateLogGroup",
-                        "logs:CreateLogStream",
-                        "logs:PutLogEvents",
-                        "logs:DescribeLogStreams"
-                     ],
-                     "Resource":[  
-                        "arn:aws:logs:*:*:*"
-                     ]
-                  }
-               ]
-            },
-            "Roles":[  
-               {  
-                  "Ref":"CodeDeployEC2ServiceRole"
-               }
-            ]
-         }
-      },
+    "CloudWatchRolePolicy": {
+      "Type": "AWS::IAM::ManagedPolicy",
+      "Properties": {
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+                "logs:DescribeLogStreams"
+              ],
+              "Resource": [
+                "arn:aws:logs:*:*:*"
+              ]
+            }
+          ]
+        },
+        "Roles": [
+          {
+            "Ref": "CodeDeployEC2ServiceRole"
+          }
+        ]
+      }
+    },
     "RolePolicies": {
       "Type": "AWS::IAM::Policy",
       "Properties": {
@@ -144,7 +144,6 @@
         ]
       }
     },
-
     "EC2SNSPolicy": {
       "Type": "AWS::IAM::Policy",
       "Properties": {
@@ -154,7 +153,9 @@
           "Statement": [
             {
               "Effect": "Allow",
-              "Action": ["sns:Publish"],
+              "Action": [
+                "sns:Publish"
+              ],
               "Resource": [
                 {
                   "Fn::Join": [
@@ -164,7 +165,7 @@
                       {
                         "Ref": "AWS::AccountId"
                       },
-                      ":reset_password"
+                      ":password_reset"
                     ]
                   ]
                 }
@@ -179,7 +180,6 @@
         ]
       }
     },
-    
     "CodeDeployEC2ServiceRoleInstanceProfile": {
       "Type": "AWS::IAM::InstanceProfile",
       "Properties": {
@@ -380,23 +380,23 @@
         }
       }
     },
-    "LambdaExecutionRole":{
-      "Type":"AWS::IAM::Role",
-      "Properties":{
-        "ManagedPolicyArns":[
+    "LambdaExecutionRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "ManagedPolicyArns": [
           "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
         ],
-        "Path":"/",
-        "AssumeRolePolicyDocument":{
-          "Version":"2012-10-17",
-          "Statement":[
+        "Path": "/",
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
             {
-              "Action":[
+              "Action": [
                 "sts:AssumeRole"
               ],
-              "Effect":"Allow",
-              "Principal":{
-                "Service":[
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
                   "lambda.amazonaws.com"
                 ]
               }
@@ -405,50 +405,49 @@
         }
       }
     },
-    "LambdaRolePolicie1":{
-      "Type":"AWS::IAM::Policy",
-      "Properties":{
-        "PolicyName":"lambda-ses",
-        "PolicyDocument":{
-          "Version":"2012-10-17",
-          "Statement":[
+    "LambdaRolePolicie1": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": "lambda-ses",
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
             {
-              "Effect":"Allow",
-              "Action":"ses:*",
-              "Resource":"*"
+              "Effect": "Allow",
+              "Action": "ses:*",
+              "Resource": "*"
             }
           ]
         },
-        "Roles":[
+        "Roles": [
           {
-            "Ref":"LambdaExecutionRole"
+            "Ref": "LambdaExecutionRole"
           }
         ]
       }
     },
-    "LambdaRolePolicie2":{
-      "Type":"AWS::IAM::Policy",
-      "Properties":{
-        "PolicyName":"lambda-dynamodb",
-        "PolicyDocument":{
-          "Version":"2012-10-17",
-          "Statement":[
+    "LambdaRolePolicie2": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": "lambda-dynamodb",
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
             {
-              "Effect":"Allow",
-              "Action":"dynamodb:*",
-              "Resource":"*"
+              "Effect": "Allow",
+              "Action": "dynamodb:*",
+              "Resource": "*"
             }
           ]
         },
-        "Roles":[
+        "Roles": [
           {
-            "Ref":"LambdaExecutionRole"
+            "Ref": "LambdaExecutionRole"
           }
         ]
       }
     }
   },
-
   "Outputs": {
     "InstanceProfile1": {
       "Description": "The Instance profile",

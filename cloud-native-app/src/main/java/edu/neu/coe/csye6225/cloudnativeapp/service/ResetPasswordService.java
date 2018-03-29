@@ -35,7 +35,7 @@ public class ResetPasswordService {
 
 
         log.info("Sending Message --- {} ", emailId);
-        Future<CreateTopicResult> reset_password = amazonSNSClient.createTopicAsync("reset_password");
+        Future<CreateTopicResult> reset_password = amazonSNSClient.createTopicAsync("password_reset");
         String topicArn = reset_password.get().getTopicArn();
         PublishRequest publishRequest = new PublishRequest(topicArn, emailId);
         Future<PublishResult> publishResultFuture = amazonSNSClient.publishAsync(publishRequest);

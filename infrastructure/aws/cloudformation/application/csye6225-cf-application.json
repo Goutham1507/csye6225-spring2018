@@ -44,7 +44,7 @@
     "SNSTopic": {
       "Type": "AWS::SNS::Topic",
       "Properties": {
-        "TopicName": "reset_password"
+        "TopicName": "password_reset"
       }
     },
     "ec2Instance": {
@@ -100,7 +100,6 @@
                 "sudo service codedeploy-agent start \n",
                 "sudo apt-get install tomcat8 -y \n",
                 "sudo chmod 777 /var/lib/tomcat8 \n",
-
                 "sudo wget https://s3.amazonaws.com/amazoncloudwatch-agent/linux/amd64/latest/AmazonCloudWatchAgent.zip \n",
                 "sudo apt-get install -y unzip \n",
                 "sudo unzip AmazonCloudWatchAgent.zip \n",
