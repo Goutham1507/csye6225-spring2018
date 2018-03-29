@@ -154,8 +154,7 @@
             {
               "Effect": "Allow",
               "Action": [
-                "sns:Publish",
-                "sns:ListTopics"
+                "sns:Publish"
               ],
               "Resource": [
                 {
