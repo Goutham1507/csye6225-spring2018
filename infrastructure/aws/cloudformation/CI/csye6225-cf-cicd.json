@@ -144,6 +144,42 @@
         ]
       }
     },
+
+    "EC2SNSPolicy": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": "Publish-EC2-S3",
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": ["sns:Publish"],
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:sns:us-east-1:",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":reset_password"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "Roles": [
+          {
+            "Ref": "CodeDeployEC2ServiceRole"
+          }
+        ]
+      }
+    },
+    
     "CodeDeployEC2ServiceRoleInstanceProfile": {
       "Type": "AWS::IAM::InstanceProfile",
       "Properties": {
