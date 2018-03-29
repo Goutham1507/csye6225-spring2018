@@ -147,14 +147,15 @@
     "EC2SNSPolicy": {
       "Type": "AWS::IAM::Policy",
       "Properties": {
-        "PolicyName": "Publish-EC2-S3",
+        "PolicyName": "Publish-EC2-SNS",
         "PolicyDocument": {
           "Version": "2012-10-17",
           "Statement": [
             {
               "Effect": "Allow",
               "Action": [
-                "sns:Publish"
+                "sns:Publish",
+                "sns:ListTopics"
               ],
               "Resource": [
                 {
