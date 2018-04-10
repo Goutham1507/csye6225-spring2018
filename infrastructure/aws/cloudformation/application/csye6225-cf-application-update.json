@@ -51,16 +51,16 @@
               }
             }
           ],
-          "SecurityGroupIds" : [{"Fn::ImportValue" : "csye6225-devesh-Networking-web-security-group"}],
-          "SubnetId" : {"Fn::ImportValue" : "csye6225-devesh-Networking-web-subnet"}
+          "SecurityGroupIds" : [{"Fn::ImportValue" : "csye6225-Networking-web-security-group"}],
+          "SubnetId" : {"Fn::ImportValue" : "csye6225-Networking-web-subnet"}
      }
     },
     "myDBSubnetGroup" : {
       "Type" : "AWS::RDS::DBSubnetGroup",
       "Properties" : {
          "DBSubnetGroupDescription" : "Subnet description of db subnets",
-         "SubnetIds" : [ {"Fn::ImportValue" : "csye6225-devesh-Networking-db-subnet1Id"},
-          {"Fn::ImportValue" : "csye6225-devesh-Networking-db-subnet2Id"} ],
+         "SubnetIds" : [ {"Fn::ImportValue" : "csye6225-Networking-db-subnet1Id"},
+          {"Fn::ImportValue" : "csye6225-Networking-db-subnet2Id"} ],
          "Tags" : [ {"Key" : "Name", "Value" : "dbSubnetGroup"} ]
       }
    },
@@ -78,7 +78,7 @@
         "MasterUserPassword" : "csye6225password",
         "DBSubnetGroupName" : {"Ref" : "myDBSubnetGroup"},
         "PubliclyAccessible" : false,
-        "VPCSecurityGroups" : [{"Fn::ImportValue" : "csye6225-devesh-Networking-db-security-group"}]
+        "VPCSecurityGroups" : [{"Fn::ImportValue" : "csye6225-Networking-db-security-group"}]
       }
    },
    "s3Bucket" : {

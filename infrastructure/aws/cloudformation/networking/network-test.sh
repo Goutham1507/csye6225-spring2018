@@ -15,7 +15,7 @@ elb_security_group=elb-sg
 vpcTag=$stackName$csye_const$vpc_const
 echo $vpcTag
 stackId=$(aws cloudformation create-stack --stack-name $stackName --template-body \
- file://csye6225-cf-networking.json --parameters \
+ file://network-test.json --parameters \
 ParameterKey=vpcTag,ParameterValue=$vpcTag \
 ParameterKey=igTag,ParameterValue=stackName$csye_const$ig_const \
 ParameterKey=publicRouteTableTag,ParameterValue=$stackName$csye_const$public_route_table_const \

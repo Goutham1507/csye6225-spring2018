@@ -9,7 +9,7 @@ echo $stack_name
 subnetExportName1="csye6225-Networking-db-subnet1Id"
 subnetExportName2="csye6225-Networking-db-subnet2Id"
 stackId=$(aws cloudformation create-stack --stack-name $stack_name --template-body \
- file://csye6225-cf-application.json --parameters \
+ file://test.json --parameters \
   ParameterKey=bucketName,ParameterValue=$bucketName \
   ParameterKey=domainName,ParameterValue=$domainName \
   ParameterKey=hostedZoneName,ParameterValue=$domainName$endSep \
