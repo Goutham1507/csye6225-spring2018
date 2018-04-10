@@ -32,7 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     protected void configure(HttpSecurity http) throws Exception {
 
-
+        http.requiresChannel().anyRequest().requiresSecure();
+        
         http.csrf().ignoringAntMatchers("/createAccount");
         http.csrf().ignoringAntMatchers("/login");
         http.csrf().ignoringAntMatchers("/upload");
