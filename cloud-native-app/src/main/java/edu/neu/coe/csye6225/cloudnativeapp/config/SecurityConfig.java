@@ -33,58 +33,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
 
-        http.requiresChannel().anyRequest().requiresSecure();
-        
 
-        http.csrf().ignoringAntMatchers("/createAccount");
-        http.csrf().ignoringAntMatchers("/login");
-        http.csrf().ignoringAntMatchers("/upload");
-        http.csrf().ignoringAntMatchers("/profilePic");
-        http.csrf().ignoringAntMatchers("/offlineProfile/*");
-        http.csrf().ignoringAntMatchers("/resetPassword");
-
-//        http.requiresChannel()
-//                .anyRequest()
-//                .requiresSecure()
-//                .and()
-//                .csrf()
-//                .disable()
-//                .authorizeRequests()
-//                .antMatchers("/createAccount").permitAll()
-//                .antMatchers("/profilePic").permitAll()
-//                .antMatchers("/offlineProfile/*").permitAll()
-//                .antMatchers("/resetPassword").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .formLogin()
-//                .loginPage("/login")
-//                .defaultSuccessUrl("/")
-//                .and()
-//                .logout()
-//                .logoutSuccessUrl("/login");
-
-
-
-
-        http
-                .requiresChannel().anyRequest().requiresSecure()
+        http.authorizeRequests()
+                .anyRequest()
+                .authenticated()
                 .and()
-                .authorizeRequests()
-                    .antMatchers("/createAccount").permitAll()
-                .antMatchers("/profilePic").permitAll()
-                .antMatchers("/offlineProfile/*").permitAll()
-                .antMatchers("/resetPassword").permitAll()
-                    .anyRequest().
-                authenticated()
-            .and()
+                .requiresChannel()
+                .anyRequest()
+                .requiresSecure()
+                .and()
                 .formLogin()
-                    .loginPage("/login")
-                    .permitAll()
-                    .and()
-
+                .loginPage("/login")
+                .permitAll()
+                .and()
                 .logout()
-                    .logoutSuccessUrl("/login")
-                    .permitAll();
+                .logoutSuccessUrl("/login");
+
 
 
     }
