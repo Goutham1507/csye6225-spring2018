@@ -34,32 +34,55 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 
-        http.csrf().ignoringAntMatchers("/createAccount");
-        http.csrf().ignoringAntMatchers("/login");
-        http.csrf().ignoringAntMatchers("/upload");
-        http.csrf().ignoringAntMatchers("/profilePic");
-        http.csrf().ignoringAntMatchers("/offlineProfile/*");
-        http.csrf().ignoringAntMatchers("/resetPassword");
+//        http.csrf().ignoringAntMatchers("/createAccount");
+//        http.csrf().ignoringAntMatchers("/login");
+//        http.csrf().ignoringAntMatchers("/upload");
+//        http.csrf().ignoringAntMatchers("/profilePic");
+//        http.csrf().ignoringAntMatchers("/offlineProfile/*");
+//        http.csrf().ignoringAntMatchers("/resetPassword");
 
-        http
-                .requiresChannel().anyRequest().requiresSecure()
+        http.requiresChannel()
+                .anyRequest()
+                .requiresSecure()
                 .and()
+                .csrf()
+                .disable()
                 .authorizeRequests()
-                    .antMatchers("/createAccount").permitAll()
+                .antMatchers("/createAccount").permitAll()
                 .antMatchers("/profilePic").permitAll()
                 .antMatchers("/offlineProfile/*").permitAll()
                 .antMatchers("/resetPassword").permitAll()
-                    .anyRequest().
-                authenticated()
-            .and()
+                .anyRequest().authenticated()
+                .and()
                 .formLogin()
-                    .loginPage("/login")
-                    .permitAll()
-                    .and()
-
+                .loginPage("/login")
+                .defaultSuccessUrl("/")
+                .and()
                 .logout()
-                    .logoutSuccessUrl("/login")
-                    .permitAll();
+                .logoutSuccessUrl("/login");
+
+
+
+
+//        http
+//                .requiresChannel().anyRequest().requiresSecure()
+//                .and()
+//                .authorizeRequests()
+//                    .antMatchers("/createAccount").permitAll()
+//                .antMatchers("/profilePic").permitAll()
+//                .antMatchers("/offlineProfile/*").permitAll()
+//                .antMatchers("/resetPassword").permitAll()
+//                    .anyRequest().
+//                authenticated()
+//            .and()
+//                .formLogin()
+//                    .loginPage("/login")
+//                    .permitAll()
+//                    .and()
+//
+//                .logout()
+//                    .logoutSuccessUrl("/login")
+//                    .permitAll();
 
 
     }
