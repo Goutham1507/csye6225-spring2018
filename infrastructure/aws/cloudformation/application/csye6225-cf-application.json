@@ -191,11 +191,11 @@
       "Properties" : {
          "AutoScalingGroupName" : "csye-6225-asg",
          "Cooldown" : "60",
-         "DesiredCapacity" : "3",
+         "DesiredCapacity" : "1",
          "LaunchConfigurationName" : {"Ref" : "asgLaunchConfig"},
          "TargetGroupARNs" : [ { "Ref" : "ELBTargetGroup" } ],
          "MaxSize" : "7",
-         "MinSize" : "3",
+         "MinSize" : "1",
          "Tags" : [
           {
             "Key": "Name",
@@ -259,6 +259,20 @@
       "LoadBalancerArn" : {"Ref" : "ElasticLoadBalancer"},
       "Port" : 443,
       "Protocol" : "HTTPS"
+      
+    }
+  },
+  "ElasticLoadBalanceListener2" : {
+    "Type" : "AWS::ElasticLoadBalancingV2::Listener",
+    "Properties" : {
+      
+      "DefaultActions" : [ {
+        "Type": "forward",
+        "TargetGroupArn": { "Ref": "ELBTargetGroup" }
+      } ],
+      "LoadBalancerArn" : {"Ref" : "ElasticLoadBalancer"},
+      "Port" : 80,
+      "Protocol" : "HTTP"
       
     }
   },

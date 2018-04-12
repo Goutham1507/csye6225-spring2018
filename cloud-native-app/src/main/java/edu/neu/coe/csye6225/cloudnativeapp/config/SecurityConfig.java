@@ -32,22 +32,47 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     protected void configure(HttpSecurity http) throws Exception {
 
+        http.csrf().ignoringAntMatchers("/createAccount");
+        http.csrf().ignoringAntMatchers("/login");
+        http.csrf().ignoringAntMatchers("/upload");
+        http.csrf().ignoringAntMatchers("/profilePic");
+        http.csrf().ignoringAntMatchers("/offlineProfile/*");
+        http.csrf().ignoringAntMatchers("/resetPassword");
 
-
-        http.authorizeRequests()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .requiresChannel()
-                .anyRequest()
-                .requiresSecure()
+        http
+                .authorizeRequests()
+                .antMatchers("/createAccount").permitAll()
+                .antMatchers("/profilePic").permitAll()
+                .antMatchers("/offlineProfile/*").permitAll()
+                .antMatchers("/resetPassword").permitAll()
+                .anyRequest().
+                authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .permitAll()
                 .and()
+
                 .logout()
-                .logoutSuccessUrl("/login");
+                .logoutSuccessUrl("/login")
+                .permitAll();
+
+
+
+//        http.authorizeRequests()
+//                .anyRequest()
+//                .authenticated()
+//                .and()
+//                .requiresChannel()
+//                .anyRequest()
+//                .requiresSecure()
+//                .and()
+//                .formLogin()
+//                .loginPage("/login")
+//                .permitAll()
+//                .and()
+//                .logout()
+//                .logoutSuccessUrl("/login");
 
 
 
