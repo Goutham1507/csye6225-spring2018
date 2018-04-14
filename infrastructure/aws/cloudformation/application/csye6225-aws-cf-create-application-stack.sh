@@ -4,6 +4,9 @@ stack_name=$1
 idRsa=$2
 bucketName=$3
 
+
+domainName=$4
+endSep='.'
 echo $stack_name
 subnetExportName1="csye6225-Networking-db-subnet1Id"
 subnetExportName2="csye6225-Networking-db-subnet2Id"
@@ -12,6 +15,8 @@ stackId=$(aws cloudformation create-stack --stack-name $stack_name --template-bo
   ParameterKey=subnetExportName1,ParameterValue=$subnetExportName1 \
   ParameterKey=subnetExportName2,ParameterValue=$subnetExportName2 \
   ParameterKey=bucketName,ParameterValue=$bucketName \
+  ParameterKey=domainName,ParameterValue=$domainName \
+  ParameterKey=hostedZoneName,ParameterValue=$domainName$endSep \
   ParameterKey=keyTag,ParameterValue=$idRsa --query [StackId] --output text)
 
 
