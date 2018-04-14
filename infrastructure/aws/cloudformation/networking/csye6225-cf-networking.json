@@ -16,6 +16,9 @@
     "webSubnetTag": {
       "Type": "String"
     },
+    "webSubnet2Tag": {
+      "Type": "String"
+    },
     "dbSubnetTag": {
       "Type": "String"
     },
@@ -23,6 +26,9 @@
       "Type": "String"
     },
     "dbSecurityGroupNameTag": {
+      "Type": "String"
+    },
+    "elbSecurityGroupNameTag": {
       "Type": "String"
     }
   },
@@ -57,7 +63,27 @@
         ],
         "VpcId": {
           "Ref": "myVPC"
-        }
+        },
+        "AvailabilityZone": "us-east-1c"
+      }
+    },
+    "webSubnet2": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.3.0/24",
+        "MapPublicIpOnLaunch": true,
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": {
+              "Ref": "webSubnet2Tag"
+            }
+          }
+        ],
+        "VpcId": {
+          "Ref": "myVPC"
+        },
+        "AvailabilityZone": "us-east-1d"
       }
     },
     "dbSubnet1": {
@@ -176,6 +202,17 @@
         }
       }
     },
+    "publicRouteTableSubnetAssociation2": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "publicRouteTable"
+        },
+        "SubnetId": {
+          "Ref": "webSubnet2"
+        }
+      }
+    },
     "privateRouteTableSubnetAssociation1": {
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
       "Properties": {
@@ -198,13 +235,14 @@
         }
       }
     },
-    "webServerSecurityGroup": {
+
+    "elbSecurityGroup": {
       "Type": "AWS::EC2::SecurityGroup",
       "Properties": {
         "GroupName": {
-          "Ref": "webServerSecurityGroupNameTag"
+          "Ref": "elbSecurityGroupNameTag"
         },
-        "GroupDescription": "Security tag for web server",
+        "GroupDescription": "Security tag for ELB",
         "SecurityGroupIngress": [
           {
             "CidrIp": "0.0.0.0/0",
@@ -220,15 +258,38 @@
           },
           {
             "CidrIp": "0.0.0.0/0",
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443
+          }
+        ],
+        "VpcId": {
+          "Ref": "myVPC"
+        }
+      }
+    },
+
+    "webServerSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupName": {
+          "Ref": "webServerSecurityGroupNameTag"
+        },
+        "GroupDescription": "Security tag for web server",
+        "SecurityGroupIngress": [
+          {
+            "SourceSecurityGroupId": {
+              "Ref": "elbSecurityGroup"
+            },
             "FromPort": 8080,
             "IpProtocol": "tcp",
             "ToPort": 8080
           },
           {
             "CidrIp": "0.0.0.0/0",
-            "FromPort": 443,
+            "FromPort": 22,
             "IpProtocol": "tcp",
-            "ToPort": 443
+            "ToPort": 22
           }
         ],
         "VpcId": {
@@ -260,6 +321,24 @@
     }
   },
   "Outputs": {
+    "vpcId": {
+      "Description": "The ID of the VPC",
+      "Value": {
+        "Ref": "myVPC"
+      },
+      "Export": {
+        "Name": "csye6225-Networking-vpc"
+      }
+    },
+    "elbSecurityGroupId": {
+      "Description": "The ID of the ELB Security Group",
+      "Value": {
+        "Ref": "elbSecurityGroup"
+      },
+      "Export": {
+        "Name": "csye6225-Networking-elb-security-group"
+      }
+    },
     "dbSubnet1Id": {
       "Description": "The ID of the db subnet1",
       "Value": {
@@ -285,6 +364,15 @@
       },
       "Export": {
         "Name": "csye6225-Networking-web-subnet"
+      }
+    },
+    "webSubnet2Id": {
+      "Description": "The ID of web subnet",
+      "Value": {
+        "Ref": "webSubnet2"
+      },
+      "Export": {
+        "Name": "csye6225-Networking-web-subnet2"
       }
     },
     "webServerSecurityGroupId": {

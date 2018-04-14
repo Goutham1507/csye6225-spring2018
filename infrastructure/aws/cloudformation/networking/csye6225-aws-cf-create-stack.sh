@@ -7,10 +7,11 @@ ig_const=InternetGateway
 public_route_table_const=public-table
 private_route_table_const=private-table
 web_subnet_tag=web-subnet
+web_subnet2_tag=web-subnet2
 db_subnet_tag=db-subnet
 ws_security_group=ws-sg
 db_security_group=db-sg
-
+elb_security_group=elb-sg
 vpcTag=$stackName$csye_const$vpc_const
 echo $vpcTag
 stackId=$(aws cloudformation create-stack --stack-name $stackName --template-body \
@@ -20,7 +21,9 @@ ParameterKey=igTag,ParameterValue=stackName$csye_const$ig_const \
 ParameterKey=publicRouteTableTag,ParameterValue=$stackName$csye_const$public_route_table_const \
 ParameterKey=privateRouteTableTag,ParameterValue=$stackName$csye_const$private_route_table_const \
 ParameterKey=webSubnetTag,ParameterValue=$stackName$csye_const$web_subnet_tag \
+ParameterKey=webSubnet2Tag,ParameterValue=$stackName$csye_const$web_subnet2_tag \
 ParameterKey=dbSubnetTag,ParameterValue=$stackName$csye_const$db_subnet_tag \
+ParameterKey=elbSecurityGroupNameTag,ParameterValue=$stackName$csye_const$elb_security_group \
 ParameterKey=webServerSecurityGroupNameTag,ParameterValue=$stackName$csye_const$ws_security_group \
 ParameterKey=dbSecurityGroupNameTag,ParameterValue=$stackName$csye_const$db_security_group \
 --query [StackId] --output text)
