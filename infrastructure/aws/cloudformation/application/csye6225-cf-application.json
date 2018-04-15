@@ -209,11 +209,11 @@
       "Properties" : {
          "AutoScalingGroupName" : "csye-6225-asg",
          "Cooldown" : "60",
-         "DesiredCapacity" : "1",
+         "DesiredCapacity" : "3",
          "LaunchConfigurationName" : {"Ref" : "asgLaunchConfig"},
          "TargetGroupARNs" : [ { "Ref" : "ELBTargetGroup" } ],
          "MaxSize" : "7",
-         "MinSize" : "1",
+         "MinSize" : "3",
          "Tags" : [
           {
             "Key": "Name",
@@ -236,6 +236,7 @@
         ],
       "SecurityGroups" : [{"Fn::ImportValue" : "csye6225-Networking-elb-security-group"}],
       "Type" : "application",
+      
       "IpAddressType" : "ipv4"
     }
   },
@@ -260,7 +261,17 @@
       "Port" : 8080,
       "Protocol" : "HTTP",
       "TargetType" : "instance",
-      "VpcId" : {"Fn::ImportValue" : "csye6225-Networking-vpc"}
+      "VpcId" : {"Fn::ImportValue" : "csye6225-Networking-vpc"},
+      "TargetGroupAttributes" : [
+        {
+          "Key" : "stickiness.enabled",
+          "Value" : "true"
+        },
+        {
+          "Key" : "stickiness.lb_cookie.duration_seconds",
+          "Value" : "600"
+        }
+      ]
     }
   }
   ,
@@ -291,6 +302,7 @@
       "LoadBalancerArn" : {"Ref" : "ElasticLoadBalancer"},
       "Port" : 80,
       "Protocol" : "HTTP"
+      
       
     }
   },
@@ -381,6 +393,40 @@
           }
         ],
         "ComparisonOperator": "LessThanThreshold"
+      }
+    },
+    "CodeDeployApplication": {
+      "Type": "AWS::CodeDeploy::Application",
+      "Properties": {
+        "ApplicationName": "CSYE6225WebappCodeDeploy"
+      }
+    },
+    "DeploymentGroup": {
+      "Type": "AWS::CodeDeploy::DeploymentGroup",
+      "Properties": {
+        "ApplicationName": {
+          "Ref": "CodeDeployApplication"
+        },
+        "DeploymentConfigName": "CodeDeployDefault.AllAtOnce",
+        "DeploymentGroupName": "CSYE6225WebappCodeDeploy",
+        "AutoScalingGroups" : [{"Ref" : "asg"}],
+        "LoadBalancerInfo" : {
+          "TargetGroupInfoList" : [ 
+            { "Name": { "Fn::GetAtt": ["ELBTargetGroup", "TargetGroupName"] } }
+           ]
+        }, 
+        "DeploymentStyle" : {
+          "DeploymentType": "IN_PLACE",
+          "DeploymentOption": "WITH_TRAFFIC_CONTROL"
+        },
+        "Ec2TagFilters": [
+          {
+            "Type": "KEY_AND_VALUE",
+            "Key": "Name",
+            "Value": "EC2Instance"
+          }
+        ],
+        "ServiceRoleArn": {"Fn::ImportValue" : "csye6225-cicd-codedeploy-service-role" }
       }
     }
   },
